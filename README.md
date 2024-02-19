@@ -1,7 +1,7 @@
-[![progress-banner](https://backend.codecrafters.io/progress/redis/fd1b24a1-83d2-449b-b91a-e60df1083be6)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+[![progress-banner](https://backend.codecrafters.io/progress/server/fd1b24a1-83d2-449b-b91a-e60df1083be6)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
 This is a starting point for Java solutions to the
-["Build Your Own Redis" Challenge](https://codecrafters.io/challenges/redis).
+["Build Your Own Redis" Challenge](https://codecrafters.io/challenges/server).
 
 In this challenge, you'll build a toy Redis clone that's capable of handling
 basic commands like `PING`, `SET` and `GET`. Along the way we'll learn about

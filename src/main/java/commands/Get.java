@@ -1,6 +1,7 @@
 package commands;
 
 import cache.RedisCache;
+import reply.Reply;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import java.util.Objects;
  */
 public class Get implements Command{
     @Override
-    public String execute(List<String> inputs) {
+    public Reply execute(List<String> inputs) {
         String key = inputs.get(3);
         String value = RedisCache.getCache().getOrDefault(key, null);
         return Objects.isNull(value) ? "$-1\r\n" : Command.warpRes(value);

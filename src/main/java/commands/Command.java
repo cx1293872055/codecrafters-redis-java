@@ -1,5 +1,7 @@
 package commands;
 
+import reply.Reply;
+
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ public interface Command {
 
 
 
-    default String execute(List<String> inputs) {
+    default Reply execute(List<String> inputs) {
         return null;
     }
 

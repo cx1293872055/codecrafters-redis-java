@@ -1,6 +1,7 @@
 package commands;
 
 import cache.RedisCache;
+import reply.Reply;
 
 import java.time.Duration;
 import java.util.List;
@@ -17,7 +18,7 @@ public class SetKey implements Command {
             Executors.newSingleThreadExecutor();
 
     @Override
-    public String execute(List<String> inputs) {
+    public Reply execute(List<String> inputs) {
         String key = inputs.get(3);
         String value = inputs.get(5);
 
