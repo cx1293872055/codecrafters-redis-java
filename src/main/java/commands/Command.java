@@ -14,6 +14,7 @@ public interface Command {
     String SET = "set";
     String PX = "px";
 
+    String INFO = "info";
     String OUTPUT_OK = "OK";
 
 

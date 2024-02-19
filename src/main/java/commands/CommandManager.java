@@ -18,7 +18,9 @@ public class CommandManager {
         commandMap.putAll(Stream.of(new Ping(),
                                     new Echo(),
                                     new Get(),
-                                    new SetKey())
+                                    new SetKey(),
+                                    new Info()
+                                )
                                 .collect(Collectors.toMap(Command::name, Function.identity())));
     }
 
