@@ -30,4 +30,9 @@ public interface Command {
     static String warpRes(String result) {
         return "+" + result + "\r\n";
     }
+
+    static String decode(String response) {
+        int length = response.length();
+        return "$" + length + "\r\n" + response + "\r\n";
+    }
 }

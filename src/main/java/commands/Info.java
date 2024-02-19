@@ -9,8 +9,8 @@ import java.util.List;
 public class Info implements Command{
     @Override
     public String execute(List<String> inputs) {
-        return Command.warpRes("# Replication" +
-                                       "\nrole:master");
+        return Command.warpRes("# Replication\n" +
+                                       Command.decode("role:master"));
     }
 
     @Override
