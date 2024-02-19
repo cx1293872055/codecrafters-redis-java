@@ -1,3 +1,6 @@
+import cache.RedisCache;
+import commands.Command;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,6 +26,7 @@ public class Main {
         int port = 6379;
         try {
             serverSocket = new ServerSocket(port);
+            RedisCache.initCache();
             serverSocket.setReuseAddress(true);
             // Wait for connection from client.
             while (true) {
