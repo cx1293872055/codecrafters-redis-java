@@ -9,6 +9,9 @@ public class RedisConfig {
     public static int port = 6379;
     public static boolean isMaster = true;
 
+    public static String id = "8371b4fb1155b71f4a04d3e1bc3e18c4a990aeeb";
+    public static int offSet = 0;
+
     public static String masterHost = null;
     public static int masterPort = 6379;
 
