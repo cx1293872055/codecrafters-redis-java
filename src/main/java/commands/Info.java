@@ -11,9 +11,9 @@ import java.util.List;
 public class Info implements Command {
     @Override
     public String execute(List<String> inputs) {
-        return Command.decode("role:" + getRole())
-                + "\n" + Command.decode("master_replid:" + RedisConfig.id)
-                + "\n" + Command.decode("master_repl_offset:" + RedisConfig.offSet);
+        return Command.decode("role:" + getRole()
+                                      + "\n" + "master_replid:" + RedisConfig.id
+                                      + "\n" + "master_repl_offset:" + RedisConfig.offSet);
     }
 
     private String getRole() {
