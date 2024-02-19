@@ -1,5 +1,6 @@
 import cache.RedisCache;
 import commands.CommandManager;
+import config.RedisConfig;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,15 +13,16 @@ public class Main {
             Executors.newFixedThreadPool(5);
 
     public static void main(String[] args) {
+        RedisConfig.loadConfig(args);
+
         // You can use print statements as follows for debugging, they'll be visible when running tests.
         System.out.println("Logs from your program will appear here!");
 
         //  Uncomment this block to pass the first stage
         ServerSocket serverSocket = null;
         Socket clientSocket = null;
-        int port = getPort(args);
         try {
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(RedisConfig.port);
 
             CommandManager.loadCommand();
             RedisCache.initCache();
@@ -44,12 +46,4 @@ public class Main {
         }
     }
 
-    public static int getPort(String[] args) {
-        for (int i = 0; i < args.length; i++) {
-            if ("--port".equalsIgnoreCase(args[i])) {
-                return Integer.parseInt(args[++i]);
-            }
-        }
-        return 6379;
-    }
 }

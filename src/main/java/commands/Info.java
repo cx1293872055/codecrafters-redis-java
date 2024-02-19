@@ -1,5 +1,7 @@
 package commands;
 
+import config.RedisConfig;
+
 import java.util.List;
 
 /**
@@ -9,7 +11,11 @@ import java.util.List;
 public class Info implements Command{
     @Override
     public String execute(List<String> inputs) {
-        return Command.decode("role:master");
+        return Command.decode("role:" + getRole());
+    }
+
+    private String getRole() {
+        return RedisConfig.isMaster ? "master" : "slave";
     }
 
     @Override
