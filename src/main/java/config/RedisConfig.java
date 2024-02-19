@@ -6,11 +6,11 @@ package config;
  */
 public class RedisConfig {
 
-    public static int port = 6397;
+    public static int port = 6379;
     public static boolean isMaster = true;
 
     public static String masterHost = null;
-    public static int masterPort = 6397;
+    public static int masterPort = 6379;
 
     public static void loadConfig(String[] args) {
         for (int i = 0; i < args.length; i++) {
