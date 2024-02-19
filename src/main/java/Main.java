@@ -1,5 +1,6 @@
 import cache.RedisCache;
 import commands.Command;
+import commands.CommandManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +27,10 @@ public class Main {
         int port = 6379;
         try {
             serverSocket = new ServerSocket(port);
+
+            CommandManager.loadCommand();
             RedisCache.initCache();
+
             serverSocket.setReuseAddress(true);
             // Wait for connection from client.
             while (true) {
@@ -79,7 +83,7 @@ class ClientHandler implements Runnable {
                     for (int i = 0; i < numberOfItems * 2; i++) {
                         commands.add(in.readLine());
                     }
-                    Command command = Command.ofInput(commands.get(1).toLowerCase());
+                    Command command = CommandManager.ofInput(commands.get(1).toLowerCase());
                     sendResponse(command.execute(commands));
                 }
             }

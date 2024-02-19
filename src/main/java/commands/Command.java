@@ -1,8 +1,6 @@
 package commands;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author chenxin
@@ -15,12 +13,6 @@ public interface Command {
 
     default String execute(List<String> inputs) {
         return null;
-    }
-
-    Map<String, Command> commandMap = new HashMap<>();
-
-    static Command ofInput(String input) {
-        return commandMap.getOrDefault(input, Default.INSTANCE);
     }
 
     static String warpRes(String result) {
