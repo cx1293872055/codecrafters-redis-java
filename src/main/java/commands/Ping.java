@@ -8,4 +8,9 @@ class Ping implements Command{
     public String execute(List<String> inputs) {
         return "+PONG\r\n";
     }
+
+    @Override
+    public String name() {
+        return PING;
+    }
 }

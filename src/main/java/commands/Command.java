@@ -8,10 +8,21 @@ import java.util.List;
  */
 public interface Command {
 
+    String PING = "ping";
+    String ECHO = "echo";
+    String GET = "get";
+    String SET = "set";
+    String PX = "px";
+
     String OUTPUT_OK = "OK";
 
 
+
     default String execute(List<String> inputs) {
+        return null;
+    }
+
+    default String name() {
         return null;
     }
 

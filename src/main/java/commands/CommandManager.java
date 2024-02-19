@@ -2,6 +2,9 @@ package commands;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author chenxin
@@ -12,10 +15,11 @@ public class CommandManager {
     static final Map<String, Command> commandMap = new HashMap<>();
 
     public static void loadCommand() {
-        commandMap.put("ping", new Ping());
-        commandMap.put("echo", new Echo());
-        commandMap.put("get", new Get());
-        commandMap.put("set", new SetKey());
+        commandMap.putAll(Stream.of(new Ping(),
+                                    new Echo(),
+                                    new Get(),
+                                    new SetKey())
+                                .collect(Collectors.toMap(Command::name, Function.identity())));
     }
 
     public static Command ofInput(String input) {

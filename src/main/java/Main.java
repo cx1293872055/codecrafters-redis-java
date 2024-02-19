@@ -72,14 +72,12 @@ class ClientHandler implements Runnable {
      */
     @Override
     public void run() {
-        try (PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
             String clientInput;
             while ((clientInput = in.readLine()) != null) {
                 if (clientInput.startsWith("*")) {
                     int numberOfItems = Integer.parseInt(clientInput.substring(1));
-                    List<String> commands = new ArrayList<>( numberOfItems * 2);
+                    List<String> commands = new ArrayList<>(numberOfItems * 2);
                     for (int i = 0; i < numberOfItems * 2; i++) {
                         commands.add(in.readLine());
                     }

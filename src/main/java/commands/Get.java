@@ -16,4 +16,10 @@ public class Get implements Command{
         String value = RedisCache.getCache().getOrDefault(key, null);
         return Objects.isNull(value) ? "$-1\r\n" : Command.warpRes(value);
     }
+
+    @Override
+    public String name() {
+        return GET;
+    }
 }
+
