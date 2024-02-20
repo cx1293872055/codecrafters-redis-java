@@ -20,6 +20,7 @@ public interface Command {
     String ERROR = "ERROR";
 
     String REPLCONF = "replconf";
+    String PSYNC = "psync";
 
 
     default Reply execute(Request request) {

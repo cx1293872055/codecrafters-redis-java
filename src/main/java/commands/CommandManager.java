@@ -20,7 +20,8 @@ public class CommandManager {
                                     new Get(),
                                     new SetKey(),
                                     new Info(),
-                                    new ReplConf()
+                                    new ReplConf(),
+                                    new Psync()
                                 )
                                 .collect(Collectors.toMap(Command::name, Function.identity())));
     }
