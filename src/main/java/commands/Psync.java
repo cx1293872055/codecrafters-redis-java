@@ -4,7 +4,6 @@ import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 
-import java.io.IOException;
 import java.util.Base64;
 
 /**
@@ -24,15 +23,5 @@ public class Psync implements Command {
     @Override
     public String name() {
         return PSYNC;
-    }
-
-    public static void main(String[] args) {
-        Psync psync = new Psync();
-        Reply execute = psync.execute(null);
-        try {
-            execute.write(System.out);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
