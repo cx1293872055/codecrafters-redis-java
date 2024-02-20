@@ -28,7 +28,7 @@ public class MasterClient extends BaseClient {
                                      Reply.value("listening-port"),
                                      Reply.value(Encoding.numToBytes(RedisConfig.port))));
 
-        sendRequest(Reply.multiReply(Reply.value("REPLECONF"),
+        sendRequest(Reply.multiReply(Reply.value("REPLCONF"),
                                      Reply.value("capa"),
                                      Reply.value("psync2")));
     }
