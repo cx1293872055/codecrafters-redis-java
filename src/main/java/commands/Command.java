@@ -16,9 +16,10 @@ public interface Command {
     String PX = "px";
 
     String INFO = "info";
-    String OUTPUT_OK = "OK";
+    String OK = "OK";
     String ERROR = "ERROR";
 
+    String REPLCONF = "replconf";
 
 
     default Reply execute(Request request) {

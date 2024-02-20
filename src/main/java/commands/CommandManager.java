@@ -19,7 +19,8 @@ public class CommandManager {
                                     new Echo(),
                                     new Get(),
                                     new SetKey(),
-                                    new Info()
+                                    new Info(),
+                                    new ReplConf()
                                 )
                                 .collect(Collectors.toMap(Command::name, Function.identity())));
     }
