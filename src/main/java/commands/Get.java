@@ -15,7 +15,7 @@ public class Get implements Command{
     public Reply execute(Request request) {
         String key = request.one().orElse(ERROR);
         String value = RedisCache.getCache().getOrDefault(key, null);
-        return Objects.isNull(value) ? Reply.errorReply : Reply.value(value);
+        return Objects.isNull(value) ? Reply.errorReply : Reply.status(value);
     }
 
     @Override

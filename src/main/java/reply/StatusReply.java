@@ -9,13 +9,13 @@ import java.io.OutputStream;
  * @author chenxin
  * @since 2024/2/20 星期二 10:47
  */
-public class ValueReply extends BaseReply {
+public class StatusReply extends BaseReply {
 
-    ValueReply(String context) {
+    StatusReply(String context) {
         super(context);
     }
 
-    ValueReply(byte[] bytes) {
+    StatusReply(byte[] bytes) {
         super(bytes);
     }
 

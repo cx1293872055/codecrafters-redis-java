@@ -17,27 +17,27 @@ public class MasterClient extends BaseClient {
 
     @Override
     public void ping() {
-        Reply ping = Reply.multiReply(Reply.value("PING"));
+        Reply ping = Reply.multiReply(Reply.status("PING"));
         sendRequest(ping);
     }
 
     @Override
     public void replConf() {
-        sendRequest(Reply.multiReply(Reply.info("REPLCONF"),
-                                     Reply.info("listening-port"),
-                                     Reply.info(Encoding.numToBytes(RedisConfig.port))));
+        sendRequest(Reply.multiReply(Reply.length("REPLCONF"),
+                                     Reply.length("listening-port"),
+                                     Reply.length(Encoding.numToBytes(RedisConfig.port))));
 
-        sendRequest(Reply.multiReply(Reply.info("REPLCONF"),
-                                     Reply.info("capa"),
-                                     Reply.info("eof"),
-                                     Reply.info("capa"),
-                                     Reply.info("psync2")));
+        sendRequest(Reply.multiReply(Reply.length("REPLCONF"),
+                                     Reply.length("capa"),
+                                     Reply.length("eof"),
+                                     Reply.length("capa"),
+                                     Reply.length("psync2")));
     }
 
     @Override
     public void psync() {
-        sendRequest(Reply.multiReply(Reply.info("PSYNC"),
-                                     Reply.info("?"),
-                                     Reply.info(Encoding.numToBytes(-1))));
+        sendRequest(Reply.multiReply(Reply.length("PSYNC"),
+                                     Reply.length("?"),
+                                     Reply.length(Encoding.numToBytes(-1))));
     }
 }

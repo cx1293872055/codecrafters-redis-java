@@ -11,7 +11,7 @@ import request.Request;
 public class Info implements Command {
     @Override
     public Reply execute(Request request) {
-        return Reply.info("role:" + getRole()
+        return Reply.length("role:" + getRole()
                                   + "\n" + "master_replid:" + RedisConfig.id
                                   + "\n" + "master_repl_offset:" + RedisConfig.offSet);
     }

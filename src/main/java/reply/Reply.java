@@ -39,20 +39,20 @@ public interface Reply {
         return new RawReply(bytes);
     }
 
-    static Reply info(String context) {
+    static Reply length(String context) {
         return new BulkReply(context);
     }
 
-    static Reply info(byte[] bytes) {
+    static Reply length(byte[] bytes) {
         return new BulkReply(bytes);
     }
 
-    static Reply value(String context) {
-        return new ValueReply(context);
+    static Reply status(String context) {
+        return new StatusReply(context);
     }
 
-    static Reply value(byte[] bytes) {
-        return new ValueReply(bytes);
+    static Reply status(byte[] bytes) {
+        return new StatusReply(bytes);
     }
 
     static Reply multiReply(Reply... replies) {

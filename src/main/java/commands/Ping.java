@@ -7,7 +7,7 @@ class Ping implements Command{
 
     @Override
     public Reply execute(Request request) {
-        return Reply.value("PONG");
+        return Reply.status("PONG");
     }
 
     @Override

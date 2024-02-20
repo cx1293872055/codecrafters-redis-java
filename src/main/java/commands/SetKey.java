@@ -35,7 +35,7 @@ public class SetKey implements Command {
         }
         RedisCache.getCache().put(key, value);
 
-        return Reply.value(OK);
+        return Reply.status(OK);
     }
 
     private void removeKey(String key,
