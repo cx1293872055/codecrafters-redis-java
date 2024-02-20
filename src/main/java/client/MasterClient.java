@@ -23,7 +23,6 @@ public class MasterClient extends BaseClient {
 
     @Override
     public void replConf() {
-
         sendRequest(Reply.multiReply(Reply.value("REPLCONF"),
                                      Reply.value("listening-port"),
                                      Reply.value(Encoding.numToBytes(RedisConfig.port))));
@@ -38,6 +37,5 @@ public class MasterClient extends BaseClient {
         sendRequest(Reply.multiReply(Reply.value("PSYNC"),
                                      Reply.value("?"),
                                      Reply.value(Encoding.numToBytes(-1))));
-
     }
 }

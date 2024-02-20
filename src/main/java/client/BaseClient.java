@@ -38,7 +38,7 @@ public abstract class BaseClient implements Client {
         try {
             reply.write(out);
         } catch (IOException ex) {
-            throw new RuntimeException("Caught error while sending data to client");
+            System.out.println("Caught error while sending data to client");
         }
     }
     @Override
