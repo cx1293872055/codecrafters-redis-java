@@ -32,4 +32,12 @@ public class MasterClient extends BaseClient {
                                      Reply.value("capa"),
                                      Reply.value("psync2")));
     }
+
+    @Override
+    public void psync() {
+        sendRequest(Reply.multiReply(Reply.value("PSYNC"),
+                                     Reply.value("?"),
+                                     Reply.value(Encoding.numToBytes(-1))));
+
+    }
 }
