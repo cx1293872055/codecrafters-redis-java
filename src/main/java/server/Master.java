@@ -4,8 +4,6 @@ import client.Client;
 import client.MasterClient;
 import config.RedisConfig;
 
-import java.io.IOException;
-
 /**
  * @author chenxin
  * @since 2024/2/19 星期一 18:01
@@ -19,12 +17,5 @@ public class Master extends BaseServer{
     @Override
     public void initial() {
         this.port = RedisConfig.port;
-        try (Client masterClient = getMasterClient()) {
-            masterClient.ping();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
     }
-
-
 }
