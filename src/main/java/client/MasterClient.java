@@ -29,6 +29,8 @@ public class MasterClient extends BaseClient {
 
         sendRequest(Reply.multiReply(Reply.value("REPLCONF"),
                                      Reply.value("capa"),
+                                     Reply.value("eof"),
+                                     Reply.value("capa"),
                                      Reply.value("psync2")));
     }
 
