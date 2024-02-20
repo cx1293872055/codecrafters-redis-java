@@ -11,6 +11,7 @@ public class ReplConf implements Command{
 
     @Override
     public Reply execute(Request request) {
+        // ready
         return Reply.value(OK);
     }
 
