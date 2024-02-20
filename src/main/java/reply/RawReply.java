@@ -1,5 +1,7 @@
 package reply;
 
+import codec.Encoding;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -20,5 +22,6 @@ public class RawReply extends BaseReply {
     @Override
     public void write(OutputStream os) throws IOException {
         os.write(bytes);
+        os.write(Encoding.CRLF);
     }
 }

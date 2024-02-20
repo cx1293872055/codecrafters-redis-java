@@ -10,4 +10,5 @@ public interface Client extends Closeable {
 
     void ping();
 
+    void replConf();
 }

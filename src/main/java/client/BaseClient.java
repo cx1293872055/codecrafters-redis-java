@@ -1,5 +1,7 @@
 package client;
 
+import reply.Reply;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,6 +34,13 @@ public abstract class BaseClient implements Client {
         }
     }
 
+    protected void sendRequest(Reply reply) {
+        try {
+            reply.write(out);
+        } catch (IOException ex) {
+            throw new RuntimeException("Caught error while sending data to client");
+        }
+    }
     @Override
     public void close() throws IOException {
         in.close();

@@ -32,6 +32,7 @@ public class Slave extends BaseServer {
 
         try (Client masterClient = getMasterClient()) {
             masterClient.ping();
+            masterClient.replConf();
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         } finally {

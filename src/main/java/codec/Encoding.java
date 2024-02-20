@@ -3,16 +3,17 @@ package codec;
 /**
  * 编码
  *
- * @from github@ktranel
  * @author chenxin
+ * @from github@ktranel
  * @date 2024/02/20 10:11:16
  */
 public class Encoding {
-    public static byte[] CRLF = new byte[]{'\r', '\n'};
     public static final byte[] NEG_ONE = convert(-1, false);
     public static final byte[] NEG_ONE_WITH_CRLF = convert(-1, true);
     public static final char LF = '\n';
     public static final char CR = '\r';
+    public static byte[] CRLF = new byte[]{CR, LF};
+
     // Cache 256 number conversions. That should cover a huge
     // percentage of numbers passed over the wire.
     private static final int NUM_MAP_LENGTH = 256;

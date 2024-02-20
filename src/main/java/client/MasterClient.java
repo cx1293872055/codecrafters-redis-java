@@ -1,8 +1,7 @@
 package client;
 
+import codec.Encoding;
 import reply.Reply;
-
-import java.io.IOException;
 
 /**
  * @author chenxin
@@ -18,10 +17,23 @@ public class MasterClient extends BaseClient {
     @Override
     public void ping() {
         Reply ping = Reply.multiReply(Reply.value("PING"));
-        try {
-            ping.write(out);
-        } catch (IOException ex) {
-            throw new RuntimeException("Caught error while sending data to client");
-        }
+        sendRequest(ping);
     }
+
+    @Override
+    public void replConf() {
+
+        Reply replConf = Reply.multiReply(Reply.value("REPLCONF"),
+                                          Reply.value("listening-port"),
+                                          Reply.value(Encoding.numToBytes(port)));
+
+        sendRequest(replConf);
+
+        Reply capa = Reply.multiReply(Reply.value("REPLECONF"),
+                                       Reply.value("capa"),
+                                       Reply.value("npsync2"));
+
+        sendRequest(capa);
+    }
+
 }
