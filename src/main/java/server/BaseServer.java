@@ -22,11 +22,7 @@ public abstract class BaseServer implements Server {
 
     @Override
     public void start() {
-        ServerSocket serverSocket = null;
-        Socket clientSocket = null;
-        try {
-            serverSocket = new ServerSocket(this.port);
-
+        try (ServerSocket serverSocket = new ServerSocket(this.port)) {
             CommandManager.loadCommand();
             RedisCache.initCache();
 
@@ -38,16 +34,7 @@ public abstract class BaseServer implements Server {
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
-        } finally {
-            try {
-                if (clientSocket != null) {
-                    clientSocket.close();
-                }
-            } catch (IOException e) {
-                System.out.println("IOException: " + e.getMessage());
-            }
         }
     }
-
 }
 

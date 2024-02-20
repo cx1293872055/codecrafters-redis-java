@@ -3,6 +3,7 @@ package handler;
 import commands.Command;
 import commands.CommandManager;
 import reply.Reply;
+import request.Request;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,8 +42,9 @@ public class ClientHandler implements Runnable {
                     for (int i = 0; i < numberOfItems * 2; i++) {
                         commands.add(in.readLine());
                     }
-                    Command command = CommandManager.ofInput(commands.get(1).toLowerCase());
-                    sendResponse(command.execute(commands));
+                    Request request = Request.commonRequest(commands);
+                    Command command = CommandManager.ofInput(request.commandName());
+                    sendResponse(command.execute(request));
                 }
             }
         } catch (IOException e) {

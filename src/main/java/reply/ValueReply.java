@@ -7,22 +7,21 @@ import java.io.OutputStream;
 
 /**
  * @author chenxin
- * @since 2024/2/19 星期一 18:41
+ * @since 2024/2/20 星期二 10:47
  */
-public class BulkReply extends BaseReply {
+public class ValueReply extends BaseReply {
 
-    BulkReply(String context) {
+    ValueReply(String context) {
         super(context);
     }
 
-    BulkReply(byte[] bytes) {
+    ValueReply(byte[] bytes) {
         super(bytes);
     }
 
     @Override
     public void write(OutputStream os) throws IOException {
-        os.write(DOLLAR);
-        os.write(Encoding.numToBytes(capacity, true));
+        os.write(ADD);
         os.write(bytes);
         os.write(Encoding.CRLF);
     }

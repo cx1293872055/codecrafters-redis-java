@@ -19,6 +19,4 @@ public interface Server {
     void initial();
 
     void start();
-
-    void ping();
 }

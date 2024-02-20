@@ -2,8 +2,7 @@ package commands;
 
 import config.RedisConfig;
 import reply.Reply;
-
-import java.util.List;
+import request.Request;
 
 /**
  * @author chenxin
@@ -11,10 +10,10 @@ import java.util.List;
  */
 public class Info implements Command {
     @Override
-    public Reply execute(List<String> inputs) {
-        return Command.decode("role:" + getRole()
-                                      + "\n" + "master_replid:" + RedisConfig.id
-                                      + "\n" + "master_repl_offset:" + RedisConfig.offSet);
+    public Reply execute(Request request) {
+        return Reply.info("role:" + getRole()
+                                  + "\n" + "master_replid:" + RedisConfig.id
+                                  + "\n" + "master_repl_offset:" + RedisConfig.offSet);
     }
 
     private String getRole() {

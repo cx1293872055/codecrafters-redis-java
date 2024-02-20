@@ -1,14 +1,13 @@
 package commands;
 
 import reply.Reply;
-
-import java.util.List;
+import request.Request;
 
 class Ping implements Command{
 
     @Override
-    public Reply execute(List<String> inputs) {
-        return "+PONG\r\n";
+    public Reply execute(Request request) {
+        return Reply.value("PONG");
     }
 
     @Override

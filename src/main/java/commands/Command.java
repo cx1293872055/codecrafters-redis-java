@@ -1,8 +1,7 @@
 package commands;
 
 import reply.Reply;
-
-import java.util.List;
+import request.Request;
 
 /**
  * @author chenxin
@@ -18,23 +17,15 @@ public interface Command {
 
     String INFO = "info";
     String OUTPUT_OK = "OK";
+    String ERROR = "ERROR";
 
 
 
-    default Reply execute(List<String> inputs) {
+    default Reply execute(Request request) {
         return null;
     }
 
     default String name() {
         return null;
-    }
-
-    static String warpRes(String result) {
-        return "+" + result + "\r\n";
-    }
-
-    static String decode(String response) {
-        int length = response.length();
-        return "$" + length + "\r\n" + response + "\r\n";
     }
 }

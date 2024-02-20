@@ -2,8 +2,8 @@ package commands;
 
 import cache.RedisCache;
 import reply.Reply;
+import request.Request;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -12,10 +12,10 @@ import java.util.Objects;
  */
 public class Get implements Command{
     @Override
-    public Reply execute(List<String> inputs) {
-        String key = inputs.get(3);
+    public Reply execute(Request request) {
+        String key = request.one().orElse(ERROR);
         String value = RedisCache.getCache().getOrDefault(key, null);
-        return Objects.isNull(value) ? "$-1\r\n" : Command.warpRes(value);
+        return Objects.isNull(value) ? Reply.errorReply : Reply.value(value);
     }
 
     @Override

@@ -34,13 +34,8 @@ public abstract class BaseClient implements Client {
 
     @Override
     public void close() throws IOException {
-        try {
-            in.close();
-            out.close();
-            socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        }
+        in.close();
+        out.close();
+        socket.close();
     }
 }

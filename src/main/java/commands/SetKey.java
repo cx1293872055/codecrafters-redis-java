@@ -2,9 +2,10 @@ package commands;
 
 import cache.RedisCache;
 import reply.Reply;
+import request.Request;
 
 import java.time.Duration;
-import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,22 +19,23 @@ public class SetKey implements Command {
             Executors.newSingleThreadExecutor();
 
     @Override
-    public Reply execute(List<String> inputs) {
-        String key = inputs.get(3);
-        String value = inputs.get(5);
+    public Reply execute(Request request) {
+        String key = request.one().get();
+        String value = request.two().get();
 
-        if (inputs.size() > 6) {
-            String option = inputs.get(7);
+        Optional<String> three = request.three();
+        if (three.isPresent()) {
+            String option = three.get();
             switch (option.toLowerCase()) {
                 case PX -> {
-                    Duration duration = Duration.ofMillis(Long.parseLong(inputs.get(9)));
+                    Duration duration = Duration.ofMillis(Long.parseLong(request.four().get()));
                     EXECUTOR_SERVICE.execute(() -> removeKey(key, duration));
                 }
             }
         }
         RedisCache.getCache().put(key, value);
 
-        return Command.warpRes(OUTPUT_OK);
+        return Reply.value(OUTPUT_OK);
     }
 
     private void removeKey(String key,

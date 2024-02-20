@@ -1,7 +1,10 @@
 package server;
 
 import client.Client;
+import client.MasterClient;
 import config.RedisConfig;
+
+import java.io.IOException;
 
 /**
  * @author chenxin
@@ -10,16 +13,18 @@ import config.RedisConfig;
 public class Master extends BaseServer{
     @Override
     public Client getMasterClient() {
-        return ;
+        return new MasterClient("localhost", port);
     }
 
     @Override
     public void initial() {
         this.port = RedisConfig.port;
+        try (Client masterClient = getMasterClient()) {
+            masterClient.ping();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
-    @Override
-    public void ping() {
 
-    }
 }

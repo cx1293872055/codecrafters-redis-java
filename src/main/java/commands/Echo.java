@@ -1,14 +1,13 @@
 package commands;
 
 import reply.Reply;
-
-import java.util.List;
+import request.Request;
 
 class Echo implements Command{
 
     @Override
-    public Reply execute(List<String> inputs) {
-        return Command.warpRes(inputs.get(3));
+    public Reply execute(Request request) {
+        return Reply.value(request.one().orElse(ERROR));
     }
 
     @Override
