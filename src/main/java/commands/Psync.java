@@ -4,14 +4,21 @@ import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 
+import java.util.Base64;
+
 /**
  * @author chenxin
  * @since 2024/2/20 星期二 15:57
  */
 public class Psync implements Command{
+
+
+    private final String EMPTY_DB = "UkVESVMwMDEx+glyZWRpcy12ZXIFNy4yLjD6CnJlZGlzLWJpdHPAQPoFY3RpbWXCbQi8ZfoIdXNlZC1tZW3CsMQQAPoIYW9mLWJhc2XAAP/wbjv+wP9aog==";
+
     @Override
     public Reply execute(Request request) {
-        return Reply.value("FULLRESYNC " + RedisConfig.id + " " + RedisConfig.offSet);
+        return Reply.multiReply(Reply.value("FULLRESYNC " + RedisConfig.id + " " + RedisConfig.offSet),
+                                Reply.sink(Base64.getDecoder().decode(EMPTY_DB)));
     }
 
     @Override

@@ -58,4 +58,12 @@ public interface Reply {
     static Reply multiReply(Reply... replies) {
         return new MultiReply(replies);
     }
+
+    static Reply sink(String context) {
+        return new BulkNoEndReply(context);
+    }
+
+    static Reply sink(byte[] bytes) {
+        return new BulkNoEndReply(bytes);
+    }
 }
