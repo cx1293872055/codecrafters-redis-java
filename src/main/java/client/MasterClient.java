@@ -1,6 +1,7 @@
 package client;
 
 import codec.Encoding;
+import config.RedisConfig;
 import reply.Reply;
 
 /**
@@ -25,11 +26,10 @@ public class MasterClient extends BaseClient {
 
         sendRequest(Reply.multiReply(Reply.value("REPLCONF"),
                                      Reply.value("listening-port"),
-                                     Reply.value(Encoding.numToBytes(port))));
+                                     Reply.value(Encoding.numToBytes(RedisConfig.port))));
 
         sendRequest(Reply.multiReply(Reply.value("REPLECONF"),
                                      Reply.value("capa"),
                                      Reply.value("psync2")));
     }
-
 }
