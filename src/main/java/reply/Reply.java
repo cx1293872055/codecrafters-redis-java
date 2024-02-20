@@ -59,6 +59,10 @@ public interface Reply {
         return new MultiReply(replies);
     }
 
+    static Reply multiNoStarReply(Reply... replies) {
+        return new MultiReply(replies);
+    }
+
     static Reply sink(String context) {
         return new BulkNoEndReply(context);
     }
