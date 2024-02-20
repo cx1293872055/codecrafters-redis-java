@@ -60,7 +60,7 @@ public interface Reply {
     }
 
     static Reply multiNoStarReply(Reply... replies) {
-        return new MultiReply(replies);
+        return new MultiNoStarReply(replies);
     }
 
     static Reply sink(String context) {
