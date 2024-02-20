@@ -23,17 +23,13 @@ public class MasterClient extends BaseClient {
     @Override
     public void replConf() {
 
-        Reply replConf = Reply.multiReply(Reply.value("REPLCONF"),
-                                          Reply.value("listening-port"),
-                                          Reply.value(Encoding.numToBytes(port)));
+        sendRequest(Reply.multiReply(Reply.value("REPLCONF"),
+                                     Reply.value("listening-port"),
+                                     Reply.value(Encoding.numToBytes(port))));
 
-        sendRequest(replConf);
-
-        Reply capa = Reply.multiReply(Reply.value("REPLECONF"),
-                                       Reply.value("capa"),
-                                       Reply.value("npsync2"));
-
-        sendRequest(capa);
+        sendRequest(Reply.multiReply(Reply.value("REPLECONF"),
+                                     Reply.value("capa"),
+                                     Reply.value("psync2")));
     }
 
 }
