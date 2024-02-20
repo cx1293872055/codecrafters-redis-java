@@ -1,7 +1,9 @@
 package commands;
 
+import client.Client;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 /**
  * @author chenxin
@@ -25,6 +27,13 @@ public interface Command {
 
     default Reply execute(Request request) {
         return null;
+    }
+
+    default void postExecute(Server server, Client client, Request request) {
+
+    }
+    default void afterExecute(Server server, Client client, Request request) {
+        server.propagation(request);
     }
 
     default String name() {

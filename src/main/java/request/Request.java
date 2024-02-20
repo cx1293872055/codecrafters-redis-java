@@ -8,6 +8,8 @@ import java.util.Optional;
  * @since 2024/2/20 星期二 11:02
  */
 public interface Request {
+    String rawCommand();
+
     String commandName();
 
     Optional<String> one();
@@ -30,7 +32,7 @@ public interface Request {
 
     Optional<String> ten();
 
-    static Request commonRequest(List<String> commands) {
-        return new CommonRequest(commands);
+    static Request commonRequest(String rawCommand, List<String> commands) {
+        return new CommonRequest(rawCommand, commands);
     }
 }

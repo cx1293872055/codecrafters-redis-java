@@ -1,5 +1,7 @@
 package client;
 
+import request.Request;
+
 import java.io.Closeable;
 
 /**
@@ -13,4 +15,6 @@ public interface Client extends Closeable {
     void replConf();
 
     void psync();
+
+    void propagation(Request request);
 }

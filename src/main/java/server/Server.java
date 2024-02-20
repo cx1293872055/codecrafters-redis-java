@@ -2,6 +2,7 @@ package server;
 
 import client.Client;
 import config.RedisConfig;
+import request.Request;
 
 /**
  * @author chenxin
@@ -15,6 +16,10 @@ public interface Server {
     }
 
     Client getMasterClient();
+
+    void setReplica(Client replica);
+
+    void propagation(Request request);
 
     void initial();
 

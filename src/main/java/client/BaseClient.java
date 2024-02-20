@@ -1,6 +1,7 @@
 package client;
 
 import reply.Reply;
+import request.Request;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +15,8 @@ import java.net.Socket;
  */
 public abstract class BaseClient implements Client {
 
-    protected final String host;
-    protected final int port;
+    protected String host;
+    protected int port;
     protected final Socket socket;
     protected final OutputStream out;
     protected final InputStream in;
@@ -34,6 +35,18 @@ public abstract class BaseClient implements Client {
         }
     }
 
+    public BaseClient(Socket socket) {
+        try {
+            this.socket = socket;
+            socket.setReuseAddress(true);
+            this.out = socket.getOutputStream();
+            this.in = socket.getInputStream();
+            System.out.println("Connected to master");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected void sendRequest(Reply reply) {
         try {
             reply.write(out);
@@ -41,10 +54,17 @@ public abstract class BaseClient implements Client {
             System.out.println("Caught error while sending data to client");
         }
     }
+
+
     @Override
     public void close() throws IOException {
         in.close();
         out.close();
         socket.close();
+    }
+
+    @Override
+    public void propagation(Request request) {
+        sendRequest(Reply.raw(request.rawCommand()));
     }
 }

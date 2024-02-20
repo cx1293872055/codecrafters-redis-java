@@ -8,11 +8,17 @@ import java.util.Optional;
  * @since 2024/2/20 星期二 11:02
  */
 public class CommonRequest implements Request {
-
+    private final String rawCommand;
     private final List<String> commands;
 
-    public CommonRequest(List<String> commands) {
+    public CommonRequest(String rawCommand, List<String> commands) {
+        this.rawCommand = rawCommand;
         this.commands = commands;
+    }
+
+    @Override
+    public String rawCommand() {
+        return null;
     }
 
     @Override
