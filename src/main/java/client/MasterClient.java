@@ -23,21 +23,21 @@ public class MasterClient extends BaseClient {
 
     @Override
     public void replConf() {
-        sendRequest(Reply.multiReply(Reply.value("REPLCONF"),
-                                     Reply.value("listening-port"),
-                                     Reply.value(Encoding.numToBytes(RedisConfig.port))));
+        sendRequest(Reply.multiReply(Reply.info("REPLCONF"),
+                                     Reply.info("listening-port"),
+                                     Reply.info(Encoding.numToBytes(RedisConfig.port))));
 
-        sendRequest(Reply.multiReply(Reply.value("REPLCONF"),
-                                     Reply.value("capa"),
-                                     Reply.value("eof"),
-                                     Reply.value("capa"),
-                                     Reply.value("psync2")));
+        sendRequest(Reply.multiReply(Reply.info("REPLCONF"),
+                                     Reply.info("capa"),
+                                     Reply.info("eof"),
+                                     Reply.info("capa"),
+                                     Reply.info("psync2")));
     }
 
     @Override
     public void psync() {
-        sendRequest(Reply.multiReply(Reply.value("PSYNC"),
-                                     Reply.value("?"),
-                                     Reply.value(Encoding.numToBytes(-1))));
+        sendRequest(Reply.multiReply(Reply.info("PSYNC"),
+                                     Reply.info("?"),
+                                     Reply.info(Encoding.numToBytes(-1))));
     }
 }
