@@ -17,6 +17,7 @@ public class Master extends BaseServer{
 
     @Override
     public void initial() {
+        System.out.println("master initial finish");
         this.port = RedisConfig.port;
     }
 }

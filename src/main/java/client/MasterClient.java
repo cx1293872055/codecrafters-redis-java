@@ -13,12 +13,12 @@ public class MasterClient extends BaseClient {
 
     public MasterClient(String host, int port) {
         super(host, port);
+        System.out.println("Connected to master");
     }
 
     @Override
     public void ping() {
-        Reply ping = Reply.multiReply(Reply.status("PING"));
-        sendRequest(ping);
+        sendRequest(Reply.multiReply(Reply.length("PING")));
     }
 
     @Override

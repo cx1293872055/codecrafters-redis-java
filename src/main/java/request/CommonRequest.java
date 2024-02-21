@@ -14,12 +14,19 @@ public class CommonRequest implements Request {
     public CommonRequest(String rawCommand, List<String> commands) {
         this.rawCommand = rawCommand;
         this.commands = commands;
-        System.out.println(commands);
+        printRaw("receive");
+    }
+
+    @Override
+    public void printRaw(String title) {
+        System.out.println(title + " command ----------");
+        System.out.println(this.rawCommand.replaceAll("\r\n", ".."));
+        System.out.println();
     }
 
     @Override
     public String rawCommand() {
-        return null;
+        return rawCommand;
     }
 
     @Override

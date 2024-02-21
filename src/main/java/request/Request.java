@@ -8,6 +8,8 @@ import java.util.Optional;
  * @since 2024/2/20 星期二 11:02
  */
 public interface Request {
+    void printRaw(String title);
+
     String rawCommand();
 
     String commandName();

@@ -5,6 +5,7 @@ import client.Client;
 import client.SlaveClient;
 import commands.Command;
 import commands.CommandManager;
+import reply.Reply;
 import request.Request;
 
 import java.io.BufferedReader;
@@ -74,23 +75,41 @@ public abstract class BaseServer implements Server {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
                 String clientInput;
                 while ((clientInput = in.readLine()) != null) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(clientInput);
+                    sb.append("\r\n");
                     if (clientInput.startsWith("*")) {
                         int numberOfItems = Integer.parseInt(clientInput.substring(1));
                         List<String> commands = new ArrayList<>(numberOfItems * 2);
                         for (int i = 0; i < numberOfItems * 2; i++) {
-                            commands.add(in.readLine());
+                            String line = in.readLine();
+                            commands.add(line);
+                            sb.append(line);
+                            sb.append("\r\n");
                         }
-                        Request request = Request.commonRequest(clientInput, commands);
+                        Request request = Request.commonRequest(sb.toString(), commands);
                         Command command = CommandManager.ofInput(request.commandName());
                         command.postExecute(server, client, request);
-                        client.sendRequest(command.execute(request));
+                        sendResponse(command.execute(request));
                         command.afterExecute(server, client, request);
+                    } else {
+                        System.out.println("receive reply --------" );
+                        System.out.println(clientInput);
+                        System.out.println();
                     }
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
+        }
+
+        private void sendResponse(Reply reply) {
+            try {
+                reply.write(clientSocket.getOutputStream());
+            } catch (IOException ex) {
+                throw new RuntimeException("Caught error while sending data to client");
+            }
         }
     }
 }

@@ -9,6 +9,6 @@ class Default implements Command {
 
     @Override
     public Reply execute(Request request) {
-        return Reply.raw("Currently you have entered a not supported command, please wait for few days.");
+        return Reply.raw("Currently you have entered a not supported command, please wait for few days.\r\n");
     }
 }

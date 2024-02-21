@@ -29,7 +29,6 @@ public abstract class BaseClient implements Client {
             socket.setReuseAddress(true);
             this.out = socket.getOutputStream();
             this.in = socket.getInputStream();
-            System.out.println("Connected to master");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +40,6 @@ public abstract class BaseClient implements Client {
             socket.setReuseAddress(true);
             this.out = socket.getOutputStream();
             this.in = socket.getInputStream();
-            System.out.println("Connected to master");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,19 +49,13 @@ public abstract class BaseClient implements Client {
     public void sendRequest(Reply reply) {
         try {
             reply.write(out);
-            reply.write(System.out);
         } catch (IOException ex) {
             System.out.println("Caught error while sending data to client");
+            System.out.println(ex);
         }
     }
 
-    protected void readReply() throws IOException {
-        byte[] b = new byte[64];
-        while (in.available() > 0) {
-            in.read(b);
-            System.out.println(new String(b));
-        }
-    }
+
 
     @Override
     public void close() throws IOException {
@@ -75,5 +67,6 @@ public abstract class BaseClient implements Client {
     @Override
     public void propagation(Request request) {
         sendRequest(Reply.raw(request.rawCommand()));
+        request.printRaw("propagation");
     }
 }

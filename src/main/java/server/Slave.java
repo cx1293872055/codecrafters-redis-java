@@ -4,7 +4,6 @@ import client.Client;
 import client.MasterClient;
 import config.RedisConfig;
 
-import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -26,16 +25,11 @@ public class Slave extends BaseServer {
 
     @Override
     public void initial() {
+        System.out.println("slave initial finish");
         this.port = RedisConfig.port;
         this.masterHost = RedisConfig.masterHost;
         this.masterPort = RedisConfig.masterPort;
 
-        try (Client masterClient = getMasterClient()) {
-            masterClient.handshake();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        } finally {
-            this.master = null;
-        }
+        getMasterClient().handshake();
     }
 }
