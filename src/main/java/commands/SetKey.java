@@ -54,4 +54,9 @@ public class SetKey implements Command {
     public String name() {
         return SET;
     }
+
+    @Override
+    public boolean propagation() {
+        return true;
+    }
 }
