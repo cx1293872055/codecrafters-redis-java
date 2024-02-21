@@ -20,20 +20,18 @@ public class Slave extends BaseServer {
     @Override
     public Client getMasterClient() {
         if (Objects.isNull(this.master))
-            this.master = new MasterClient(masterHost, masterPort);
+            this.master = new MasterClient(this.masterHost, this.masterPort);
         return this.master;
     }
 
     @Override
     public void initial() {
-        port = RedisConfig.port;
-        masterHost = RedisConfig.masterHost;
-        masterPort = RedisConfig.masterPort;
+        this.port = RedisConfig.port;
+        this.masterHost = RedisConfig.masterHost;
+        this.masterPort = RedisConfig.masterPort;
 
         try (Client masterClient = getMasterClient()) {
-            masterClient.ping();
-            masterClient.replConf();
-            masterClient.psync();
+            masterClient.handshake();
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         } finally {

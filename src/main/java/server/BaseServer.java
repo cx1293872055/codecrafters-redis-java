@@ -5,7 +5,6 @@ import client.Client;
 import client.SlaveClient;
 import commands.Command;
 import commands.CommandManager;
-import reply.Reply;
 import request.Request;
 
 import java.io.BufferedReader;
@@ -84,7 +83,7 @@ public abstract class BaseServer implements Server {
                         Request request = Request.commonRequest(clientInput, commands);
                         Command command = CommandManager.ofInput(request.commandName());
                         command.postExecute(server, client, request);
-                        sendResponse(command.execute(request));
+                        client.sendRequest(command.execute(request));
                         command.afterExecute(server, client, request);
                     }
                 }
@@ -92,14 +91,6 @@ public abstract class BaseServer implements Server {
                 throw new RuntimeException(e);
             }
 
-        }
-
-        private void sendResponse(Reply reply) {
-            try {
-                reply.write(clientSocket.getOutputStream());
-            } catch (IOException ex) {
-                throw new RuntimeException("Caught error while sending data to client");
-            }
         }
     }
 }

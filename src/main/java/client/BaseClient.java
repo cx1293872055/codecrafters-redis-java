@@ -47,15 +47,24 @@ public abstract class BaseClient implements Client {
         }
     }
 
-    protected void sendRequest(Reply reply) {
+    @Override
+    public void sendRequest(Reply reply) {
         try {
             reply.write(out);
             reply.write(System.out);
+            readReply();
         } catch (IOException ex) {
             System.out.println("Caught error while sending data to client");
         }
     }
 
+    private void readReply() throws IOException {
+        byte[] b = new byte[64];
+        while (in.available() > 0) {
+            in.read(b);
+            System.out.println(new String(b));
+        }
+    }
 
     @Override
     public void close() throws IOException {

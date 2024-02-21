@@ -1,5 +1,6 @@
 package client;
 
+import reply.Reply;
 import request.Request;
 
 import java.io.Closeable;
@@ -10,11 +11,19 @@ import java.io.Closeable;
  */
 public interface Client extends Closeable {
 
+    default void handshake() {
+        ping();
+        replConf();
+        psync();
+    }
+
     void ping();
 
     void replConf();
 
     void psync();
+
+    void sendRequest(Reply reply);
 
     void propagation(Request request);
 }
