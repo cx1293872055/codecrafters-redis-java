@@ -4,6 +4,7 @@ import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 
+import java.io.IOException;
 import java.util.Base64;
 
 /**
@@ -23,8 +24,14 @@ public class Psync implements Command {
         //     throw new RuntimeException(e);
         // }
         // return status;
-        return Reply.multiNoStarReply(Reply.status("FULLRESYNC " + RedisConfig.id + " " + RedisConfig.offSet),
-                                      Reply.sink(Base64.getDecoder().decode(EMPTY_DB)));
+        Reply reply = Reply.multiNoStarReply(Reply.status("FULLRESYNC " + RedisConfig.id + " " + RedisConfig.offSet),
+                                             Reply.sink(Base64.getDecoder().decode(EMPTY_DB)));
+        try {
+            reply.write(System.out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return reply;
     }
 
     @Override
