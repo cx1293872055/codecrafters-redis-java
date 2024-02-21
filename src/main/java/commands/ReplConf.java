@@ -19,4 +19,9 @@ public class ReplConf implements Command{
     public String name() {
         return REPLCONF;
     }
+
+    @Override
+    public boolean propagation() {
+        return false;
+    }
 }

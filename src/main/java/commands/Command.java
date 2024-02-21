@@ -39,7 +39,7 @@ public interface Command {
     }
 
     default boolean propagation() {
-        return true;
+        return false;
     }
 
     default String name() {
