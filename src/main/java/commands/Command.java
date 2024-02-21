@@ -38,6 +38,11 @@ public interface Command {
         }
     }
 
+    /**
+     * ready
+     *
+     * @return boolean
+     */
     default boolean propagation() {
         return false;
     }
