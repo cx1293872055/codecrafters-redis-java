@@ -4,8 +4,6 @@ import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 
-import java.util.Base64;
-
 /**
  * @author chenxin
  * @since 2024/2/20 星期二 15:57
@@ -16,8 +14,8 @@ public class Psync implements Command {
 
     @Override
     public Reply execute(Request request) {
-        return Reply.multiNoStarReply(Reply.status(String.format("FULLRESYNC %s %d",RedisConfig.id, RedisConfig.offSet)),
-                                      Reply.sink(Base64.getDecoder().decode(EMPTY_DB)));
+        return Reply.multiNoStarReply(Reply.status(String.format("FULLRESYNC %s %d", RedisConfig.id, RedisConfig.offSet)));
+                                      // Reply.sink(Base64.getDecoder().decode(EMPTY_DB)));
     }
 
     @Override
