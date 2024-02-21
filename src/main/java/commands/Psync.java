@@ -28,6 +28,7 @@ public class Psync implements Command {
                                              Reply.sink(Base64.getDecoder().decode(EMPTY_DB)));
         try {
             reply.write(System.out);
+            System.out.println("-----------------");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
