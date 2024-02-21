@@ -39,4 +39,9 @@ public class Psync implements Command {
     public String name() {
         return PSYNC;
     }
+
+    @Override
+    public boolean propagation() {
+        return false;
+    }
 }

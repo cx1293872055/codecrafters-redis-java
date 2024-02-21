@@ -24,7 +24,6 @@ public interface Command {
     String REPLCONF = "replconf";
     String PSYNC = "psync";
 
-
     default Reply execute(Request request) {
         return null;
     }
@@ -32,8 +31,15 @@ public interface Command {
     default void postExecute(Server server, Client client, Request request) {
 
     }
+
     default void afterExecute(Server server, Client client, Request request) {
-        server.propagation(request);
+        if (propagation()) {
+            server.propagation(request);
+        }
+    }
+
+    default boolean propagation() {
+        return true;
     }
 
     default String name() {

@@ -23,7 +23,7 @@ class Echo implements Command{
     }
 
     @Override
-    public void afterExecute(Server server, Client client, Request request) {
-
+    public boolean propagation() {
+        return false;
     }
 }
