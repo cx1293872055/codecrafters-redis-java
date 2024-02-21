@@ -7,7 +7,10 @@ import request.Request;
 import java.util.Objects;
 
 /**
+ * ready
+ *
  * @author chenxin
+ * @date 2024/02/21 17:09:01
  * @since 2024/2/19 星期一 15:55
  */
 public class Get implements Command{
