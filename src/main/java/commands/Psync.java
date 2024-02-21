@@ -16,7 +16,7 @@ public class Psync implements Command {
 
     @Override
     public Reply execute(Request request) {
-        return Reply.multiNoStarReply(Reply.status("FULLRESYNC " + RedisConfig.id + " " + RedisConfig.offSet),
+        return Reply.multiNoStarReply(Reply.status(String.format("FULLRESYNC %s %d",RedisConfig.id, RedisConfig.offSet)),
                                       Reply.sink(Base64.getDecoder().decode(EMPTY_DB)));
     }
 
