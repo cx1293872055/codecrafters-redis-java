@@ -14,7 +14,6 @@ public class SlaveClient extends BaseClient{
 
     public SlaveClient(Socket socket) {
         super(socket);
-        System.out.println("Connected to slave");
     }
 
     @Override

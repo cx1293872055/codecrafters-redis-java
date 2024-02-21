@@ -4,6 +4,9 @@ import reply.Reply;
 import request.Request;
 
 import java.io.Closeable;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 
 /**
  * @author chenxin
@@ -22,6 +25,12 @@ public interface Client extends Closeable {
     void replConf();
 
     void psync();
+
+    Socket getSocket();
+
+    InputStream getInputStream();
+
+    OutputStream getOutputStream();
 
     void sendRequest(Reply reply);
 

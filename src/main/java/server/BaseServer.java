@@ -5,7 +5,6 @@ import client.Client;
 import client.SlaveClient;
 import commands.Command;
 import commands.CommandManager;
-import reply.Reply;
 import request.Request;
 
 import java.io.BufferedReader;
@@ -13,10 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,24 +51,30 @@ public abstract class BaseServer implements Server {
 
     @Override
     public void propagation(Request request) {
-        this.replicas.forEach(client -> client.propagation(request));
+        Iterator<Client> iterator = this.replicas.iterator();
+        while (iterator.hasNext()) {
+            Client client = iterator.next();
+            if (client.getSocket().isClosed()) {
+                iterator.remove();
+            } else {
+                client.propagation(request);
+            }
+        }
     }
 
     static class ClientHandler implements Runnable {
 
         private final Server server;
-        private final Socket clientSocket;
         private final Client client;
 
         public ClientHandler(Server server, Socket clientSocket) {
             this.server = server;
-            this.clientSocket = clientSocket;
             this.client = new SlaveClient(clientSocket);
         }
 
         @Override
         public void run() {
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
                 String clientInput;
                 while ((clientInput = in.readLine()) != null) {
                     StringBuilder sb = new StringBuilder();
@@ -90,25 +92,16 @@ public abstract class BaseServer implements Server {
                         Request request = Request.commonRequest(sb.toString(), commands);
                         Command command = CommandManager.ofInput(request.commandName());
                         command.postExecute(server, client, request);
-                        sendResponse(command.execute(request));
+                        client.sendRequest(command.execute(request));
                         command.afterExecute(server, client, request);
                     } else {
-                        System.out.println("receive reply --------" );
+                        System.out.println("receive reply --------");
                         System.out.println(clientInput);
                         System.out.println();
                     }
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
-
-        }
-
-        private void sendResponse(Reply reply) {
-            try {
-                reply.write(clientSocket.getOutputStream());
-            } catch (IOException ex) {
-                throw new RuntimeException("Caught error while sending data to client");
             }
         }
     }

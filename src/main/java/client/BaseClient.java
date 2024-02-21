@@ -46,6 +46,21 @@ public abstract class BaseClient implements Client {
     }
 
     @Override
+    public Socket getSocket() {
+        return this.socket;
+    }
+
+    @Override
+    public InputStream getInputStream() {
+        return this.in;
+    }
+
+    @Override
+    public OutputStream getOutputStream() {
+        return this.out;
+    }
+
+    @Override
     public void sendRequest(Reply reply) {
         try {
             reply.write(out);

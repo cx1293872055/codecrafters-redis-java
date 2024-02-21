@@ -1,9 +1,7 @@
 package commands;
 
-import client.Client;
 import reply.Reply;
 import request.Request;
-import server.Server;
 
 class Echo implements Command{
 
@@ -17,13 +15,4 @@ class Echo implements Command{
         return ECHO;
     }
 
-    @Override
-    public void postExecute(Server server, Client client, Request request) {
-        server.setReplica(client);
-    }
-
-    @Override
-    public boolean propagation() {
-        return false;
-    }
 }

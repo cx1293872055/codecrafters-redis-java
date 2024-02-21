@@ -1,8 +1,11 @@
 package commands;
 
+import client.Client;
+import client.SlaveClient;
 import config.RedisConfig;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 import java.util.Base64;
 
@@ -12,6 +15,8 @@ import java.util.Base64;
  */
 public class Psync implements Command {
 
+
+    public static Integer replicaPort = 0;
     private static final String EMPTY_DB = "UkVESVMwMDEx+glyZWRpcy12ZXIFNy4yLjD6CnJlZGlzLWJpdHPAQPoFY3RpbWXCbQi8ZfoIdXNlZC1tZW3CsMQQAPoIYW9mLWJhc2XAAP/wbjv+wP9aog==";
 
     @Override
@@ -26,7 +31,9 @@ public class Psync implements Command {
     }
 
     @Override
-    public boolean propagation() {
-        return false;
+    public void postExecute(Server server, Client client, Request request) {
+        if (replicaPort != 0) {
+            server.setReplica(new SlaveClient("localhost", replicaPort));
+        }
     }
 }

@@ -29,13 +29,20 @@ public interface Command {
     }
 
     default void postExecute(Server server, Client client, Request request) {
-
+        if (setReplica()) {
+            server.setReplica(client);
+            System.out.println("Connected to slave");
+        }
     }
 
     default void afterExecute(Server server, Client client, Request request) {
         if (propagation()) {
             server.propagation(request);
         }
+    }
+
+    default boolean setReplica() {
+        return false;
     }
 
     /**

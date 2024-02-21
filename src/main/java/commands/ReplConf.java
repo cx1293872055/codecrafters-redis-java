@@ -7,10 +7,14 @@ import request.Request;
  * @author chenxin
  * @since 2024/2/20 星期二 14:17
  */
-public class ReplConf implements Command{
+public class ReplConf implements Command {
+
 
     @Override
     public Reply execute(Request request) {
+        if ("listening-port".equalsIgnoreCase(request.one().get())) {
+            Psync.replicaPort = Integer.parseInt(request.two().get());
+        }
         // ready
         return Reply.status(OK);
     }
@@ -20,8 +24,4 @@ public class ReplConf implements Command{
         return REPLCONF;
     }
 
-    @Override
-    public boolean propagation() {
-        return false;
-    }
 }
