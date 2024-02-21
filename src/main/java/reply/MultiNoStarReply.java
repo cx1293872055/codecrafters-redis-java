@@ -18,10 +18,10 @@ public class MultiNoStarReply implements Reply {
 
     @Override
     public void write(OutputStream os) throws IOException {
-        if (replies == null) {
+        if (this.replies == null) {
             os.write(Encoding.NEG_ONE_WITH_CRLF);
         } else {
-            for (Reply reply : replies) {
+            for (Reply reply : this.replies) {
                 reply.write(os);
             }
         }
