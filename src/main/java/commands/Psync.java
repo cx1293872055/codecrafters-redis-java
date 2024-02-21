@@ -32,6 +32,8 @@ public class Psync implements Command {
 
     @Override
     public void postExecute(Server server, Client client, Request request) {
+        server.setReplica(client);
+
         if (replicaPort != 0) {
             Client replica = null;
             try {
