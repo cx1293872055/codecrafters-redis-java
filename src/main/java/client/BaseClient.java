@@ -52,13 +52,12 @@ public abstract class BaseClient implements Client {
         try {
             reply.write(out);
             reply.write(System.out);
-            readReply();
         } catch (IOException ex) {
             System.out.println("Caught error while sending data to client");
         }
     }
 
-    private void readReply() throws IOException {
+    protected void readReply() throws IOException {
         byte[] b = new byte[64];
         while (in.available() > 0) {
             in.read(b);
