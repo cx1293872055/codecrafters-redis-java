@@ -20,11 +20,17 @@ public interface Client extends Closeable {
         psync();
     }
 
-    void ping();
+    default void ping() {
 
-    void replConf();
+    }
 
-    void psync();
+    default void replConf() {
+
+    }
+
+    default void psync() {
+
+    }
 
     Socket getSocket();
 

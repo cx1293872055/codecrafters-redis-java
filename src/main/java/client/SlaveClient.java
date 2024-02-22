@@ -10,24 +10,10 @@ public class SlaveClient extends BaseClient{
 
     public SlaveClient(String host, int port) {
         super(host, port);
+        System.out.println("Connected to slave: " + this.getSocket().getRemoteSocketAddress());
     }
 
     public SlaveClient(Socket socket) {
         super(socket);
-    }
-
-    @Override
-    public void ping() {
-
-    }
-
-    @Override
-    public void replConf() {
-
-    }
-
-    @Override
-    public void psync() {
-
     }
 }
