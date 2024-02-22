@@ -1,6 +1,7 @@
 package commands;
 
 import client.Client;
+import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 import server.Server;
@@ -38,6 +39,9 @@ public interface Command {
         if (propagation()) {
             server.propagation(request);
         }
+        if (offSet()) {
+            RedisConfig.increaseOffSet(request);
+        }
     }
 
     default boolean setReplica() {
@@ -50,6 +54,10 @@ public interface Command {
      * @return boolean
      */
     default boolean propagation() {
+        return false;
+    }
+
+    default boolean offSet() {
         return false;
     }
 
