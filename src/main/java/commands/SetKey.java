@@ -1,8 +1,11 @@
 package commands;
 
 import cache.RedisCache;
+import client.Client;
+import config.RedisConfig;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -58,5 +61,11 @@ public class SetKey implements Command {
     @Override
     public boolean propagation() {
         return true;
+    }
+
+    @Override
+    public void afterExecute(Server server, Client client, Request request) {
+        Command.super.afterExecute(server, client, request);
+        RedisConfig.offSet += request.rawCommand().length();
     }
 }

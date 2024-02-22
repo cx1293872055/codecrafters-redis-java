@@ -1,7 +1,10 @@
 package commands;
 
+import client.Client;
+import config.RedisConfig;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 class Ping implements Command{
 
@@ -15,4 +18,9 @@ class Ping implements Command{
         return PING;
     }
 
+    @Override
+    public void afterExecute(Server server, Client client, Request request) {
+        Command.super.afterExecute(server, client, request);
+        RedisConfig.offSet += request.rawCommand().length();
+    }
 }

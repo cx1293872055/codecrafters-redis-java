@@ -1,6 +1,7 @@
 package commands;
 
 import codec.Encoding;
+import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 
@@ -18,7 +19,7 @@ public class ReplConf implements Command {
         } else if ("getack".equalsIgnoreCase(request.one().get())) {
             return Reply.multiReply(Reply.length("REPLCONF"),
                                     Reply.length("ACK"),
-                                    Reply.length(Encoding.numToBytes(0)));
+                                    Reply.length(Encoding.numToBytes(RedisConfig.offSet)));
         }
 
         // ready
