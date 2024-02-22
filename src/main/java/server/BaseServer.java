@@ -5,6 +5,7 @@ import client.Client;
 import client.SlaveClient;
 import commands.Command;
 import commands.CommandManager;
+import reply.Reply;
 import request.Request;
 
 import java.io.BufferedReader;
@@ -78,7 +79,7 @@ public abstract class BaseServer implements Server {
                 String clientInput;
                 while ((clientInput = in.readLine()) != null) {
                     StringBuilder sb = new StringBuilder();
-                    sb.append(clientInput.replace("**","*"));
+                    sb.append(clientInput.replace("**", "*"));
                     sb.append("\r\n");
                     if (clientInput.startsWith("*") || clientInput.startsWith("**")) {
                         boolean propagation = clientInput.startsWith("**");
@@ -94,10 +95,10 @@ public abstract class BaseServer implements Server {
                         Command command = CommandManager.ofInput(request.commandName());
 
                         command.postExecute(server, client, request);
+                        Reply reply = command.execute(request);
                         if (!propagation) {
-                            client.sendRequest(command.execute(request));
+                            client.sendRequest(reply);
                         }
-
                         command.afterExecute(server, client, request);
                     } else {
                         System.out.println("receive reply --------");
