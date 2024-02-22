@@ -14,7 +14,11 @@ public class ReplConf implements Command {
     public Reply execute(Request request) {
         if ("listening-port".equalsIgnoreCase(request.one().get())) {
             Psync.replicaPort = Integer.parseInt(request.two().get());
+        } else if ("ack".equalsIgnoreCase(request.one().get())) {
+            if (0 == Integer.parseInt(request.two().get())) {
+            }
         }
+
         // ready
         return Reply.status(OK);
     }

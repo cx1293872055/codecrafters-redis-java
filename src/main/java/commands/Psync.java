@@ -1,14 +1,12 @@
 package commands;
 
 import client.Client;
-import client.SlaveClient;
 import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 import server.Server;
 
 import java.util.Base64;
-import java.util.Objects;
 
 /**
  * @author chenxin
@@ -34,17 +32,17 @@ public class Psync implements Command {
     public void postExecute(Server server, Client client, Request request) {
         server.setReplica(client);
 
-        if (replicaPort != 0) {
-            Client replica = null;
-            try {
-                replica = new SlaveClient("localhost", replicaPort);
-            } catch (Exception exception) {
-                System.out.println("replica not available");
-            }
-
-            if (Objects.nonNull(replica)) {
-                server.setReplica(replica);
-            }
-        }
+        // if (replicaPort != 0) {
+        //     Client replica = null;
+        //     try {
+        //         replica = new SlaveClient("localhost", replicaPort);
+        //     } catch (Exception exception) {
+        //         System.out.println("replica not available");
+        //     }
+        //
+        //     if (Objects.nonNull(replica)) {
+        //         server.setReplica(replica);
+        //     }
+        // }
     }
 }

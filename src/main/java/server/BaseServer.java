@@ -3,6 +3,7 @@ package server;
 import cache.RedisCache;
 import client.Client;
 import client.SlaveClient;
+import codec.Encoding;
 import commands.Command;
 import commands.CommandManager;
 import reply.Reply;
@@ -36,7 +37,7 @@ public abstract class BaseServer implements Server {
             // Wait for connection from client.
             while (true) {
                 Socket accept = serverSocket.accept();
-                handleClient(new SlaveClient(accept));
+                handleClient(new ClientHandler(this, new SlaveClient(accept)));
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
@@ -44,8 +45,8 @@ public abstract class BaseServer implements Server {
     }
 
     @Override
-    public void handleClient(Client client) {
-        EXECUTOR_SERVICE.submit(new ClientHandler(this, client));
+    public void handleClient(Runnable runnable) {
+        EXECUTOR_SERVICE.submit(runnable);
     }
 
     @Override
@@ -66,25 +67,100 @@ public abstract class BaseServer implements Server {
         }
     }
 
-    static class ClientHandler implements Runnable {
+    static abstract class BaseHandler implements Runnable {
 
-        private final Server server;
-        private final Client client;
+        protected final Server server;
+        protected final Client client;
 
-        public ClientHandler(Server server, Client client) {
+        public BaseHandler(Server server, Client client) {
             this.server = server;
             this.client = client;
+        }
+    }
+
+    static class MasterHandler extends BaseHandler {
+
+        public MasterHandler(Server server, Client client) {
+            super(server, client);
+        }
+
+        @Override
+        public void run() {
+
+            try (BufferedReader reader = client.getReader()) {
+                int ch;
+                while ((ch = reader.read()) != -1) {
+                    if (ch == '*') {
+                        StringBuilder raw = new StringBuilder();
+                        int nxtChar = reader.read() - 48;
+                        int arrayLength = nxtChar * 2;
+                        ArrayList<String> commandArray = new ArrayList<>();
+                        raw.append("*").append(nxtChar).append('\r').append('\n');
+
+                        // \r\n
+                        reader.read();
+                        reader.read();
+
+                        // read commands and args
+                        while (arrayLength > 0) {
+                            StringBuilder sb = new StringBuilder();
+                            while ((ch = reader.read()) != -1) {
+                                if (ch == '\r') {
+                                    break;
+                                }
+                                sb.append((char) ch);
+                            }
+                            reader.read();
+                            raw.append(sb).append('\r').append('\n');
+                            commandArray.add(sb.toString());
+                            arrayLength--;
+                        }
+                        Request request = Request.commonRequest(raw.toString(), commandArray);
+                        request.printRaw("receive master");
+                        Command command = CommandManager.ofInput(request.commandName());
+                        Reply reply = command.execute(request);
+                        client.sendRequest(reply);
+                    }
+                    if (ch == '+') {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append('+');
+                        int temp;
+                        while ((temp = reader.read()) != -1) {
+                            if (temp == '\r') {
+                                reader.read();
+                                break;
+                            }
+
+                            sb.append((char) temp);
+                        }
+
+                        System.out.println("receive reply --------");
+                        System.out.println(sb);
+                        System.out.println();
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    static class ClientHandler extends BaseHandler {
+
+        public ClientHandler(Server server, Client client) {
+            super(server, client);
         }
 
         @Override
         public void run() {
             try (BufferedReader in = client.getReader()) {
+
                 String clientInput;
                 while ((clientInput = in.readLine()) != null) {
                     StringBuilder sb = new StringBuilder();
-                    sb.append(clientInput);
-                    sb.append("\r\n");
                     if (clientInput.startsWith("*")) {
+                        sb.append(clientInput);
+                        sb.append("\r\n");
                         int numberOfItems = Integer.parseInt(clientInput.substring(1));
                         List<String> commands = new ArrayList<>(numberOfItems * 2);
                         for (int i = 0; i < numberOfItems * 2; i++) {
@@ -94,17 +170,27 @@ public abstract class BaseServer implements Server {
                             sb.append("\r\n");
                         }
                         Request request = Request.commonRequest(sb.toString(), commands);
+                        request.printRaw("receive client");
                         Command command = CommandManager.ofInput(request.commandName());
 
                         command.postExecute(server, client, request);
                         Reply reply = command.execute(request);
                         client.sendRequest(reply);
                         command.afterExecute(server, client, request);
+                    } else if ((clientInput.startsWith("+FULLRESYNC"))) {
+                        System.out.println("receive sync --------");
+                        System.out.println(clientInput);
+                        System.out.println(in.readLine());
+                        System.out.println(in.readLine());
+                        client.sendRequest(Reply.multiReply(Reply.length("REPLCONF"),
+                                                            Reply.length("ACK"),
+                                                            Reply.length(Encoding.numToBytes(0))));
                     } else {
                         System.out.println("receive reply --------");
                         System.out.println(clientInput);
-                        System.out.println();
                     }
+                    System.out.println("socket closed ? " + client.getSocket().isClosed());
+                    System.out.println();
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -15,7 +15,7 @@ public interface Server {
         return RedisConfig.isMaster ? new Master() : new Slave();
     }
 
-    void handleClient(Client client);
+    void handleClient(Runnable runnable);
 
     Client getMasterClient();
 

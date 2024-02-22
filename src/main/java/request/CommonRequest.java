@@ -14,7 +14,6 @@ public class CommonRequest implements Request {
     public CommonRequest(String rawCommand, List<String> commands) {
         this.rawCommand = rawCommand;
         this.commands = commands;
-        printRaw("receive");
     }
 
     @Override

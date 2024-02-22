@@ -30,6 +30,7 @@ public class Slave extends BaseServer {
         this.masterHost = RedisConfig.masterHost;
         this.masterPort = RedisConfig.masterPort;
 
+        handleClient(new MasterHandler(this, getMasterClient()));
         getMasterClient().handshake();
     }
 }

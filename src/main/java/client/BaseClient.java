@@ -85,13 +85,6 @@ public abstract class BaseClient implements Client {
         }
     }
 
-    private void readReply() throws IOException {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-        }
-    }
-
     @Override
     public void close() throws IOException {
         in.close();

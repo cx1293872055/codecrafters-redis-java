@@ -4,6 +4,8 @@ import codec.Encoding;
 import config.RedisConfig;
 import reply.Reply;
 
+import java.io.IOException;
+
 /**
  * @author chenxin
  * @since 2024/2/19 星期一 18:24
@@ -39,6 +41,11 @@ public class MasterClient extends BaseClient {
         sendRequest(Reply.multiReply(Reply.length("PSYNC"),
                                      Reply.length("?"),
                                      Reply.length(Encoding.numToBytes(-1))));
+        try {
+            this.out.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
