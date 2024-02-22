@@ -80,8 +80,9 @@ public abstract class BaseServer implements Server {
                     StringBuilder sb = new StringBuilder();
                     sb.append(clientInput);
                     sb.append("\r\n");
-                    if (clientInput.startsWith("*")) {
-                        int numberOfItems = Integer.parseInt(clientInput.substring(1));
+                    if (clientInput.startsWith("*") || clientInput.startsWith("**")) {
+                        boolean propagation = clientInput.startsWith("**");
+                        int numberOfItems = Integer.parseInt(clientInput.substring(propagation ? 2 : 1));
                         List<String> commands = new ArrayList<>(numberOfItems * 2);
                         for (int i = 0; i < numberOfItems * 2; i++) {
                             String line = in.readLine();
@@ -91,8 +92,12 @@ public abstract class BaseServer implements Server {
                         }
                         Request request = Request.commonRequest(sb.toString(), commands);
                         Command command = CommandManager.ofInput(request.commandName());
+
                         command.postExecute(server, client, request);
-                        client.sendRequest(command.execute(request));
+                        if (!propagation) {
+                            client.sendRequest(command.execute(request));
+                        }
+
                         command.afterExecute(server, client, request);
                     } else {
                         System.out.println("receive reply --------");

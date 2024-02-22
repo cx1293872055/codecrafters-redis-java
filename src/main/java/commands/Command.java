@@ -18,8 +18,7 @@ public interface Command {
     String PX = "px";
 
     String INFO = "info";
-    String OK = "OK";
-    String ERROR = "ERROR";
+    String OK = "OK"; String ERROR = "ERROR";
 
     String REPLCONF = "replconf";
     String PSYNC = "psync";
