@@ -142,7 +142,6 @@ public abstract class BaseServer implements Server {
 
                         System.out.println("receive master reply --------");
                         System.out.println(sb);
-                        System.out.println();
                     } else {
                         start.append((char) ch);
                     }
