@@ -14,4 +14,9 @@ class Ping implements Command{
     public String name() {
         return PING;
     }
+
+    @Override
+    public boolean offSet() {
+        return true;
+    }
 }
