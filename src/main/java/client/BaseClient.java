@@ -3,9 +3,7 @@ package client;
 import reply.Reply;
 import request.Request;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -18,8 +16,11 @@ public abstract class BaseClient implements Client {
     protected String host;
     protected int port;
     protected final Socket socket;
+
     protected final OutputStream out;
+    protected final PrintWriter writer;
     protected final InputStream in;
+    protected final BufferedReader reader;
 
     public BaseClient(String host, int port) {
         this.host = host;
@@ -28,7 +29,9 @@ public abstract class BaseClient implements Client {
             this.socket = new Socket(InetAddress.getByName(host), port);
             socket.setReuseAddress(true);
             this.out = socket.getOutputStream();
+            this.writer = new PrintWriter(this.out, true);
             this.in = socket.getInputStream();
+            this.reader = new BufferedReader(new InputStreamReader(this.in));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +42,9 @@ public abstract class BaseClient implements Client {
             this.socket = socket;
             socket.setReuseAddress(true);
             this.out = socket.getOutputStream();
+            this.writer = new PrintWriter(this.out, true);
             this.in = socket.getInputStream();
+            this.reader = new BufferedReader(new InputStreamReader(this.in));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -53,6 +58,16 @@ public abstract class BaseClient implements Client {
     @Override
     public InputStream getInputStream() {
         return this.in;
+    }
+
+    @Override
+    public BufferedReader getReader() {
+        return this.reader;
+    }
+
+    @Override
+    public PrintWriter getWriter() {
+        return this.writer;
     }
 
     @Override
@@ -70,19 +85,27 @@ public abstract class BaseClient implements Client {
         }
     }
 
-
+    private void readReply() throws IOException {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+    }
 
     @Override
     public void close() throws IOException {
         in.close();
         out.close();
+        writer.close();
+        reader.close();
         socket.close();
     }
 
     @Override
     public void propagation(Request request) {
         sendRequest(Reply.raw(request.rawCommand()));
+
+        System.out.println(socket.getRemoteSocketAddress());
         request.printRaw("propagation");
     }
-
 }

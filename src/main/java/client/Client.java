@@ -3,9 +3,7 @@ package client;
 import reply.Reply;
 import request.Request;
 
-import java.io.Closeable;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -36,7 +34,11 @@ public interface Client extends Closeable {
 
     InputStream getInputStream();
 
+    BufferedReader getReader();
+
     OutputStream getOutputStream();
+
+    PrintWriter getWriter();
 
     void sendRequest(Reply reply);
 
