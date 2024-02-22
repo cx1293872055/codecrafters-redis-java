@@ -134,7 +134,7 @@ public abstract class BaseServer implements Server {
                             sb.append((char) temp);
                         }
 
-                        System.out.println("receive reply --------");
+                        System.out.println("receive master reply --------");
                         System.out.println(sb);
                         System.out.println();
                     }
@@ -178,7 +178,7 @@ public abstract class BaseServer implements Server {
                         client.sendRequest(reply);
                         command.afterExecute(server, client, request);
                     } else if ((clientInput.startsWith("+FULLRESYNC"))) {
-                        System.out.println("receive sync --------");
+                        System.out.println("receive client sync --------");
                         System.out.println(clientInput);
                         System.out.println(in.readLine());
                         System.out.println(in.readLine());
@@ -186,7 +186,7 @@ public abstract class BaseServer implements Server {
                                                             Reply.length("ACK"),
                                                             Reply.length(Encoding.numToBytes(0))));
                     } else {
-                        System.out.println("receive reply --------");
+                        System.out.println("receive client reply --------");
                         System.out.println(clientInput);
                     }
                     System.out.println("socket closed ? " + client.getSocket().isClosed());
