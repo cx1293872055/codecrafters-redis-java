@@ -189,8 +189,6 @@ public abstract class BaseServer implements Server {
                         System.out.println("receive client reply --------");
                         System.out.println(clientInput);
                     }
-                    System.out.println("socket closed ? " + client.getSocket().isClosed());
-                    System.out.println();
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
