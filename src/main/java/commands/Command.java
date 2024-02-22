@@ -29,12 +29,12 @@ public interface Command {
     }
 
     default void masterPostExecute(Server server, Client client, Request request) {
-    }
-
-    default void masterAfterExecute(Server server, Client client, Request request) {
         if (offSet()) {
             RedisConfig.increaseOffSet(request);
         }
+    }
+
+    default void masterAfterExecute(Server server, Client client, Request request) {
     }
 
     default void postExecute(Server server, Client client, Request request) {
