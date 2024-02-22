@@ -89,8 +89,12 @@ public abstract class BaseServer implements Server {
 
             try (BufferedReader reader = client.getReader()) {
                 int ch;
+                StringBuilder start = new StringBuilder();
                 while ((ch = reader.read()) != -1) {
                     if (ch == '*') {
+                        System.out.println(start);
+                        start = new StringBuilder();
+
                         StringBuilder raw = new StringBuilder();
                         int nxtChar = reader.read() - 48;
                         int arrayLength = nxtChar * 2;
@@ -120,8 +124,10 @@ public abstract class BaseServer implements Server {
                         Command command = CommandManager.ofInput(request.commandName());
                         Reply reply = command.execute(request);
                         client.sendRequest(reply);
-                    }
-                    if (ch == '+') {
+                    } else if (ch == '+') {
+                        System.out.println(start);
+                        start = new StringBuilder();
+
                         StringBuilder sb = new StringBuilder();
                         sb.append('+');
                         int temp;
@@ -137,6 +143,8 @@ public abstract class BaseServer implements Server {
                         System.out.println("receive master reply --------");
                         System.out.println(sb);
                         System.out.println();
+                    } else {
+                        start.append((char) ch);
                     }
                 }
             } catch (IOException e) {
