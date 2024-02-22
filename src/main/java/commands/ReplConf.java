@@ -1,5 +1,6 @@
 package commands;
 
+import codec.Encoding;
 import reply.Reply;
 import request.Request;
 
@@ -14,9 +15,10 @@ public class ReplConf implements Command {
     public Reply execute(Request request) {
         if ("listening-port".equalsIgnoreCase(request.one().get())) {
             Psync.replicaPort = Integer.parseInt(request.two().get());
-        } else if ("ack".equalsIgnoreCase(request.one().get())) {
-            if (0 == Integer.parseInt(request.two().get())) {
-            }
+        } else if ("getack".equalsIgnoreCase(request.one().get())) {
+            return Reply.multiReply(Reply.length("REPLCONF"),
+                                    Reply.length("ACK"),
+                                    Reply.length(Encoding.numToBytes(0)));
         }
 
         // ready
