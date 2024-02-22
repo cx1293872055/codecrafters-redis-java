@@ -160,6 +160,11 @@ public abstract class BaseServer implements Server {
 
         @Override
         public void run() {
+            try {
+                Thread.sleep(100L);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             try (BufferedReader in = client.getReader()) {
 
                 String clientInput;
