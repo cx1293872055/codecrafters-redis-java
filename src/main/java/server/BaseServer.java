@@ -122,8 +122,9 @@ public abstract class BaseServer implements Server {
                         Request request = Request.commonRequest(raw.toString(), commandArray);
                         request.printRaw("receive master");
                         Command command = CommandManager.ofInput(request.commandName());
-                        Reply reply = command.execute(request);
-                        client.sendRequest(reply);
+                        command.masterPostExecute(server, client, request);
+                        client.sendRequest(command.execute(request));
+                        command.masterAfterExecute(server,  client, request);
                     } else if (ch == '+') {
                         System.out.println(start);
                         start = new StringBuilder();
@@ -187,8 +188,7 @@ public abstract class BaseServer implements Server {
                         Command command = CommandManager.ofInput(request.commandName());
 
                         command.postExecute(server, client, request);
-                        Reply reply = command.execute(request);
-                        client.sendRequest(reply);
+                        client.sendRequest(command.execute(request));
                         command.afterExecute(server, client, request);
                     } else if ((clientInput.startsWith("+FULLRESYNC"))) {
                         System.out.println("receive client sync --------");

@@ -28,6 +28,15 @@ public interface Command {
         return null;
     }
 
+    default void masterPostExecute(Server server, Client client, Request request) {
+    }
+
+    default void masterAfterExecute(Server server, Client client, Request request) {
+        if (offSet()) {
+            RedisConfig.increaseOffSet(request);
+        }
+    }
+
     default void postExecute(Server server, Client client, Request request) {
         if (setReplica()) {
             server.setReplica(client);
@@ -38,9 +47,6 @@ public interface Command {
     default void afterExecute(Server server, Client client, Request request) {
         if (propagation()) {
             server.propagation(request);
-        }
-        if (offSet()) {
-            RedisConfig.increaseOffSet(request);
         }
     }
 
