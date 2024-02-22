@@ -81,7 +81,7 @@ public abstract class BaseClient implements Client {
 
     @Override
     public void propagation(Request request) {
-        sendRequest(Reply.raw("*" + request.rawCommand()));
+        sendRequest(Reply.raw(request.rawCommand()));
         request.printRaw("propagation");
     }
 
