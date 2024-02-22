@@ -161,7 +161,7 @@ public abstract class BaseServer implements Server {
         @Override
         public void run() {
             try {
-                Thread.sleep(100L);
+                Thread.sleep(50L);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
