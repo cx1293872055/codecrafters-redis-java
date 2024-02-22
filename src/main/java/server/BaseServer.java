@@ -78,7 +78,7 @@ public abstract class BaseServer implements Server {
                 String clientInput;
                 while ((clientInput = in.readLine()) != null) {
                     StringBuilder sb = new StringBuilder();
-                    sb.append(clientInput.replaceAll("/*/*","/*"));
+                    sb.append(clientInput.replace("**","*"));
                     sb.append("\r\n");
                     if (clientInput.startsWith("*") || clientInput.startsWith("**")) {
                         boolean propagation = clientInput.startsWith("**");
