@@ -38,11 +38,11 @@ public class Wait implements Command {
                     counted.add(replica);
                 }
                 if (counted.size() == replicaReceiveCountNum) {
-                    return Reply.num(server.getReplicas().size());
+                    return Reply.num(counted.size());
                 }
             }
         }
-        return Reply.num(server.getReplicas().size());
+        return Reply.num(0);
     }
 
     @Override
