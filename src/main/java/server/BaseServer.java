@@ -120,9 +120,7 @@ public abstract class BaseServer implements Server {
                         Request request = Request.commonRequest(raw.toString(), commandArray);
                         request.printRaw("receive master");
                         Command command = CommandManager.ofInput(request.commandName());
-                        command.masterPostExecute(server, client, request);
-                        client.sendRequest(command.execute(request));
-                        command.masterAfterExecute(server, client, request);
+                        command.doMasterExecute(server, client, request);
                     } else if (ch == '+') {
                         System.out.println(start);
                         start = new StringBuilder();
@@ -184,10 +182,7 @@ public abstract class BaseServer implements Server {
                         Request request = Request.commonRequest(sb.toString(), commands);
                         request.printRaw("receive client");
                         Command command = CommandManager.ofInput(request.commandName());
-
-                        command.clientPostExecute(server, client, request);
-                        client.sendRequest(command.execute(request));
-                        command.clientAfterExecute(server, client, request);
+                        command.doClientExecute(server, client, request);
                     } else {
                         System.out.println("receive client reply --------");
                         System.out.println(clientInput);

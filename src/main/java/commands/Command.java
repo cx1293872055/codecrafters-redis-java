@@ -1,6 +1,7 @@
 package commands;
 
 import client.Client;
+import client.MasterClient;
 import config.RedisConfig;
 import reply.Reply;
 import request.Request;
@@ -27,6 +28,21 @@ public interface Command {
     String getAck = "getack";
 
     String PSYNC = "psync";
+
+    default void doMasterExecute(Server server, Client client, Request request) {
+        masterPostExecute(server, client, request);
+        Reply reply = execute(request);
+        if (!(client instanceof MasterClient) || !(this instanceof Ping)) {
+            client.sendRequest(reply);
+        }
+        masterAfterExecute(server, client, request);
+    }
+
+    default void doClientExecute(Server server, Client client, Request request) {
+        clientPostExecute(server, client, request);
+        client.sendRequest(execute(request));
+        clientAfterExecute(server, client, request);
+    }
 
     default Reply execute(Request request) {
         return null;
