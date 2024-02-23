@@ -161,7 +161,7 @@ public abstract class BaseServer implements Server {
         public void run() {
             try {
                 // reason: ensure master propagation and client request is ordered
-                Thread.sleep(50L);
+                Thread.sleep(30L);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
