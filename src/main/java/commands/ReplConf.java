@@ -38,4 +38,13 @@ public class ReplConf implements Command {
         return REPLCONF;
     }
 
+    /**
+     * ready
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean propagation() {
+        return true;
+    }
 }

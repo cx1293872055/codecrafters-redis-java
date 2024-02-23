@@ -5,6 +5,7 @@ import client.Client;
 import client.SlaveClient;
 import commands.Command;
 import commands.CommandManager;
+import config.RedisConfig;
 import request.Request;
 import utils.Sleeper;
 
@@ -87,6 +88,14 @@ public abstract class BaseServer implements Server {
 
     @Override
     public void setReplicaOffSet(Client client, int offSet) {
+        // if this is slave
+        // update itself offSet
+        if (this instanceof Slave) {
+            RedisConfig.offSet = offSet;
+            return;
+        }
+
+        // master: update corresponding replca offset
         Integer currentOffSet = replicasOffSetMap.get(client);
         if (offSet >= currentOffSet) {
             client.receivedPropagatedReply();
