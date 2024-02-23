@@ -16,6 +16,7 @@ public interface Reply {
     char DOLLAR = '$';
     char ADD = '+';
     char STAR = '*';
+    char colon = ':';
 
     Reply errorReply = os -> {
         os.write(DOLLAR);
@@ -63,5 +64,9 @@ public interface Reply {
 
     static Reply sink(byte[] bytes) {
         return new BulkNoEndReply(bytes);
+    }
+
+    static Reply num(int num) {
+        return new NumberReply(Encoding.numToBytes(num));
     }
 }

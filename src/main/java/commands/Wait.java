@@ -1,6 +1,5 @@
 package commands;
 
-import codec.Encoding;
 import reply.Reply;
 import request.Request;
 
@@ -11,7 +10,13 @@ import request.Request;
 public class Wait implements Command{
     @Override
     public Reply execute(Request request) {
-        return Reply.status(Encoding.numToBytes(0));
+        String count = request.one().get();
+        if ("0".equals(count)) {
+            return Reply.num(0);
+        } else {
+            return Reply.num(7);
+
+        }
     }
 
     @Override
