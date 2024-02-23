@@ -13,12 +13,17 @@ import server.Server;
  */
 public class ReplConf implements Command {
 
-
     @Override
     public Reply execute(Server server, Client client, Request request) {
-        if (listeningPort.equalsIgnoreCase(request.one().get())) {
-            Psync.replicaPort = Integer.parseInt(request.two().get());
-        } else if (getAck.equalsIgnoreCase(request.one().get())) {
+        String subCommand = request.one().get();
+        String subArg = request.two().get();
+
+        if (listeningPort.equalsIgnoreCase(subCommand)) {
+            Psync.replicaPort = Integer.parseInt(subArg);
+        } else if (ack.equalsIgnoreCase(subCommand)) {
+            int offSet = Integer.parseInt(subArg);
+            server.setReplicaOffSet(client, offSet);
+        } else if (getAck.equalsIgnoreCase(subCommand)) {
             RedisConfig.startAck();
             return Reply.multiReply(Reply.length("REPLCONF"),
                                     Reply.length("ACK"),

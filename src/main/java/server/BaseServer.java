@@ -23,8 +23,11 @@ public abstract class BaseServer implements Server {
     protected static final ExecutorService EXECUTOR_SERVICE =
             Executors.newFixedThreadPool(10);
     protected final Set<Client> replicas = new HashSet<>();
+    protected final Map<Client, Integer> replicasOffSetMap = new HashMap<>();
+
     protected int replicasPropagatedCount = 0;
     protected long lastPropagatedTime = 0;
+
     protected int port;
 
     @Override
@@ -52,6 +55,7 @@ public abstract class BaseServer implements Server {
     @Override
     public void setReplica(Client replica) {
         replicas.add(replica);
+        replicasOffSetMap.put(replica, 0);
     }
 
     @Override
@@ -66,10 +70,10 @@ public abstract class BaseServer implements Server {
             Client client = iterator.next();
             if (client.getSocket().isClosed()) {
                 iterator.remove();
+                replicasOffSetMap.remove(client);
             } else {
                 client.propagation(request);
-                replicasPropagatedCount++;
-                lastPropagatedTime = System.currentTimeMillis();
+                client.getAck();
             }
         }
     }
@@ -80,13 +84,17 @@ public abstract class BaseServer implements Server {
     }
 
     @Override
-    public void reSetPropagatedCount() {
-        this.replicasPropagatedCount = 0;
+    public void setReplicaOffSet(Client client, int offSet) {
+        Integer currentOffSet = replicasOffSetMap.get(client);
+        if (offSet >= currentOffSet) {
+            client.receivedPropagatedReply();
+        }
+        replicasOffSetMap.put(client, offSet);
     }
 
     @Override
-    public long lastPropagationTime() {
-        return this.lastPropagatedTime;
+    public int getReplicaOffSet(Client client) {
+        return replicasOffSetMap.get(client);
     }
 
     static abstract class BaseHandler implements Runnable {

@@ -31,9 +31,9 @@ public interface Server {
 
     void start();
 
+    void setReplicaOffSet(Client client, int offSet);
+
+    int getReplicaOffSet(Client client);
+
     int propagatedCount();
-
-    void reSetPropagatedCount();
-
-    long lastPropagationTime();
 }

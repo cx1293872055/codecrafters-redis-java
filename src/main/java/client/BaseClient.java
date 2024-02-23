@@ -22,6 +22,8 @@ public abstract class BaseClient implements Client {
     protected final InputStream in;
     protected final BufferedReader reader;
 
+    protected boolean receivePropagationReply = false;
+
     public BaseClient(String host, int port) {
         this.host = host;
         this.port = port;
@@ -100,7 +102,19 @@ public abstract class BaseClient implements Client {
     public void propagation(Request request) {
         sendRequest(Reply.raw(request.rawCommand()));
 
+        receivePropagationReply = false;
+
         System.out.println(socket.getRemoteSocketAddress());
         request.printRaw("propagation");
+    }
+
+    @Override
+    public void receivedPropagatedReply() {
+        this.receivePropagationReply = true;
+    }
+
+    @Override
+    public boolean isReceivedPropagatedReply() {
+        return this.receivePropagationReply;
     }
 }

@@ -35,23 +35,17 @@ public interface Client extends Closeable {
     }
 
     default void psync() {
-
         sendRequest(Reply.multiReply(Reply.length("PSYNC"),
                                      Reply.length("?"),
                                      Reply.length(Encoding.numToBytes(-1))));
-        try {
-            getOutputStream().flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     default void getAck() {
-
         sendRequest(Reply.multiReply(Reply.length("REPLCONF"),
                                      Reply.length("GETACK"),
                                      Reply.length("*")));
     }
+
     Socket getSocket();
 
     InputStream getInputStream();
@@ -65,4 +59,9 @@ public interface Client extends Closeable {
     void sendRequest(Reply reply);
 
     void propagation(Request request);
+
+    void receivedPropagatedReply();
+
+    boolean isReceivedPropagatedReply();
 }
+

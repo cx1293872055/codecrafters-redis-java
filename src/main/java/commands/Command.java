@@ -24,6 +24,7 @@ public interface Command {
 
     String REPLCONF = "replconf";
     String listeningPort = "listening-port";
+    String ack = "ack";
     String getAck = "getack";
 
     String PSYNC = "psync";
