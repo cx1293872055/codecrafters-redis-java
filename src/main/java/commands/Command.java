@@ -27,6 +27,7 @@ public interface Command {
     String getAck = "getack";
 
     String PSYNC = "psync";
+    String wait = "wait";
 
     default void doMasterExecute(Server server, Client client, Request request) {
         masterPostExecute(server, client, request);

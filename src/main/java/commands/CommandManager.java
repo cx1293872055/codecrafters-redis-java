@@ -1,5 +1,4 @@
 package commands;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -21,7 +20,8 @@ public class CommandManager {
                                     new SetKey(),
                                     new Info(),
                                     new ReplConf(),
-                                    new Psync()
+                                    new Psync(),
+                                    new Wait()
                                 )
                                 .collect(Collectors.toMap(Command::name, Function.identity())));
     }
