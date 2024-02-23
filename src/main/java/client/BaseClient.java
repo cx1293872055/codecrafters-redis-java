@@ -80,6 +80,7 @@ public abstract class BaseClient implements Client {
         try {
             reply.write(out);
             reply.write(System.out);
+            System.out.flush();
 
             out.flush();
         } catch (IOException ex) {
