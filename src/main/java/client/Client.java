@@ -1,5 +1,7 @@
 package client;
 
+import codec.Encoding;
+import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 
@@ -13,23 +15,43 @@ import java.net.Socket;
 public interface Client extends Closeable {
 
     default void handshake() {
-        ping();
-        replConf();
-        psync();
     }
 
     default void ping() {
-
+        sendRequest(Reply.multiReply(Reply.length("PING")));
     }
 
     default void replConf() {
 
+        sendRequest(Reply.multiReply(Reply.length("REPLCONF"),
+                                     Reply.length("listening-port"),
+                                     Reply.length(Encoding.numToBytes(RedisConfig.port))));
+
+        sendRequest(Reply.multiReply(Reply.length("REPLCONF"),
+                                     Reply.length("capa"),
+                                     Reply.length("eof"),
+                                     Reply.length("capa"),
+                                     Reply.length("psync2")));
     }
 
     default void psync() {
 
+        sendRequest(Reply.multiReply(Reply.length("PSYNC"),
+                                     Reply.length("?"),
+                                     Reply.length(Encoding.numToBytes(-1))));
+        try {
+            getOutputStream().flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    default void getAck() {
+
+        sendRequest(Reply.multiReply(Reply.length("REPLCONF"),
+                                     Reply.length("GETACK"),
+                                     Reply.length("*")));
+    }
     Socket getSocket();
 
     InputStream getInputStream();

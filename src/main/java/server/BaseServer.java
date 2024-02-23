@@ -187,9 +187,9 @@ public abstract class BaseServer implements Server {
                         request.printRaw("receive client");
                         Command command = CommandManager.ofInput(request.commandName());
 
-                        command.postExecute(server, client, request);
+                        command.clientPostExecute(server, client, request);
                         client.sendRequest(command.execute(request));
-                        command.afterExecute(server, client, request);
+                        command.clientAfterExecute(server, client, request);
                     } else if ((clientInput.startsWith("+FULLRESYNC"))) {
                         System.out.println("receive client sync --------");
                         System.out.println(clientInput);

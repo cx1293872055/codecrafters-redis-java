@@ -37,14 +37,14 @@ public interface Command {
     default void masterAfterExecute(Server server, Client client, Request request) {
     }
 
-    default void postExecute(Server server, Client client, Request request) {
+    default void clientPostExecute(Server server, Client client, Request request) {
         if (setReplica()) {
             server.setReplica(client);
             System.out.println("Connected to slave");
         }
     }
 
-    default void afterExecute(Server server, Client client, Request request) {
+    default void clientAfterExecute(Server server, Client client, Request request) {
         if (propagation()) {
             server.propagation(request);
         }

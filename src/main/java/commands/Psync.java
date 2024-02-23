@@ -29,7 +29,7 @@ public class Psync implements Command {
     }
 
     @Override
-    public void postExecute(Server server, Client client, Request request) {
+    public void clientPostExecute(Server server, Client client, Request request) {
         server.setReplica(client);
 
         // if (replicaPort != 0) {
@@ -44,5 +44,14 @@ public class Psync implements Command {
         //         server.setReplica(replica);
         //     }
         // }
+    }
+
+    @Override
+    public void clientAfterExecute(Server server, Client client, Request request) {
+        Command.super.masterAfterExecute(server, client, request);
+
+        client.getAck();
+        client.ping();
+        client.getAck();
     }
 }
