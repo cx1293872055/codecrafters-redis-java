@@ -19,9 +19,13 @@ public interface Command {
     String PX = "px";
 
     String INFO = "info";
-    String OK = "OK"; String ERROR = "ERROR";
+    String OK = "OK";
+    String ERROR = "ERROR";
 
     String REPLCONF = "replconf";
+    String listeningPort = "listening-port";
+    String getAck = "getack";
+
     String PSYNC = "psync";
 
     default Reply execute(Request request) {

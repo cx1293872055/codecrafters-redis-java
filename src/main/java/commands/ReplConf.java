@@ -14,15 +14,14 @@ public class ReplConf implements Command {
 
     @Override
     public Reply execute(Request request) {
-        if ("listening-port".equalsIgnoreCase(request.one().get())) {
+        if (listeningPort.equalsIgnoreCase(request.one().get())) {
             Psync.replicaPort = Integer.parseInt(request.two().get());
-        } else if ("getack".equalsIgnoreCase(request.one().get())) {
+        } else if (getAck.equalsIgnoreCase(request.one().get())) {
             RedisConfig.startAck();
             return Reply.multiReply(Reply.length("REPLCONF"),
                                     Reply.length("ACK"),
                                     Reply.length(Encoding.numToBytes(RedisConfig.offSet)));
         }
-
         // ready
         return Reply.status(OK);
     }
