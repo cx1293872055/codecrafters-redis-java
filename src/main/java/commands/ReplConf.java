@@ -56,5 +56,4 @@ public class ReplConf implements Command {
         Command.super.clientAfterExecute(server, client, request);
         this.propagation = false;
     }
-
 }
