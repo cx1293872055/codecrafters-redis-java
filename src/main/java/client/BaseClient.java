@@ -79,6 +79,8 @@ public abstract class BaseClient implements Client {
     public void sendRequest(Reply reply) {
         try {
             reply.write(out);
+            reply.write(System.out);
+
             out.flush();
         } catch (IOException ex) {
             System.out.println("Caught error while sending data to client");

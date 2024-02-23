@@ -3,10 +3,8 @@ package server;
 import cache.RedisCache;
 import client.Client;
 import client.SlaveClient;
-import codec.Encoding;
 import commands.Command;
 import commands.CommandManager;
-import reply.Reply;
 import request.Request;
 
 import java.io.BufferedReader;
@@ -124,7 +122,7 @@ public abstract class BaseServer implements Server {
                         Command command = CommandManager.ofInput(request.commandName());
                         command.masterPostExecute(server, client, request);
                         client.sendRequest(command.execute(request));
-                        command.masterAfterExecute(server,  client, request);
+                        command.masterAfterExecute(server, client, request);
                     } else if (ch == '+') {
                         System.out.println(start);
                         start = new StringBuilder();
@@ -190,14 +188,6 @@ public abstract class BaseServer implements Server {
                         command.clientPostExecute(server, client, request);
                         client.sendRequest(command.execute(request));
                         command.clientAfterExecute(server, client, request);
-                    } else if ((clientInput.startsWith("+FULLRESYNC"))) {
-                        System.out.println("receive client sync --------");
-                        System.out.println(clientInput);
-                        System.out.println(in.readLine());
-                        System.out.println(in.readLine());
-                        client.sendRequest(Reply.multiReply(Reply.length("REPLCONF"),
-                                                            Reply.length("ACK"),
-                                                            Reply.length(Encoding.numToBytes(0))));
                     } else {
                         System.out.println("receive client reply --------");
                         System.out.println(clientInput);
