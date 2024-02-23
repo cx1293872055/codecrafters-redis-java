@@ -84,7 +84,11 @@ public abstract class BaseClient implements Client {
             out.flush();
         } catch (IOException ex) {
             System.out.println("Caught error while sending data to client");
-            System.out.println(ex);
+            try {
+                reply.write(System.out);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
