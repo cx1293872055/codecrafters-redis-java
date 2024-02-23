@@ -13,6 +13,8 @@ import server.Server;
  */
 public class ReplConf implements Command {
 
+    private boolean propagation = false;
+
     @Override
     public Reply execute(Server server, Client client, Request request) {
         String subCommand = request.one().get();
@@ -23,6 +25,7 @@ public class ReplConf implements Command {
         } else if (ack.equalsIgnoreCase(subCommand)) {
             int offSet = Integer.parseInt(subArg);
             server.setReplicaOffSet(client, offSet);
+            propagation = true;
         } else if (getAck.equalsIgnoreCase(subCommand)) {
             RedisConfig.startAck();
             return Reply.multiReply(Reply.length("REPLCONF"),
@@ -45,6 +48,12 @@ public class ReplConf implements Command {
      */
     @Override
     public boolean propagation() {
-        return true;
+        return propagation;
+    }
+
+    @Override
+    public void clientAfterExecute(Server server, Client client, Request request) {
+        Command.super.clientAfterExecute(server, client, request);
+        this.propagation = false;
     }
 }
