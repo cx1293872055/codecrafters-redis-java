@@ -98,6 +98,7 @@ public abstract class BaseClient implements Client {
         socket.close();
     }
 
+
     @Override
     public void propagation(Request request) {
         sendRequest(Reply.raw(request.rawCommand()));
