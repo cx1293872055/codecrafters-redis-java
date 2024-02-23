@@ -28,12 +28,13 @@ public class Wait implements Command {
 
         Collection<Client> replicas = server.getReplicas();
 
-        replicas.forEach(Client::getAck);
+        // replicas.forEach(Client::getAck);
 
         Set<Client> counted = new HashSet<>();
         long currentMills = System.currentTimeMillis();
         while (currentMills + waitMillsInt > System.currentTimeMillis()) {
             for (Client replica : replicas) {
+                replica.getAck();
                 if (replica.isReceivedPropagatedReply()) {
                     counted.add(replica);
                 }
