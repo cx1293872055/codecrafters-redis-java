@@ -30,4 +30,10 @@ public interface Server {
     void initial();
 
     void start();
+
+    int propagatedCount();
+
+    void reSetPropagatedCount();
+
+    long lastPropagationTime();
 }

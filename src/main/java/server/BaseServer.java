@@ -23,6 +23,8 @@ public abstract class BaseServer implements Server {
     protected static final ExecutorService EXECUTOR_SERVICE =
             Executors.newFixedThreadPool(10);
     protected final Set<Client> replicas = new HashSet<>();
+    protected int replicasPropagatedCount = 0;
+    protected long lastPropagatedTime = 0;
     protected int port;
 
     @Override
@@ -66,8 +68,25 @@ public abstract class BaseServer implements Server {
                 iterator.remove();
             } else {
                 client.propagation(request);
+                replicasPropagatedCount++;
+                lastPropagatedTime = System.currentTimeMillis();
             }
         }
+    }
+
+    @Override
+    public int propagatedCount() {
+        return this.replicasPropagatedCount;
+    }
+
+    @Override
+    public void reSetPropagatedCount() {
+        this.replicasPropagatedCount = 0;
+    }
+
+    @Override
+    public long lastPropagationTime() {
+        return this.lastPropagatedTime;
     }
 
     static abstract class BaseHandler implements Runnable {
