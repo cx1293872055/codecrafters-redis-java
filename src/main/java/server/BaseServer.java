@@ -6,6 +6,7 @@ import client.SlaveClient;
 import commands.Command;
 import commands.CommandManager;
 import request.Request;
+import utils.Sleeper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,6 +67,8 @@ public abstract class BaseServer implements Server {
     @Override
     public void propagation(Request request) {
         Iterator<Client> iterator = this.replicas.iterator();
+        Sleeper.sleep(30L);
+
         while (iterator.hasNext()) {
             Client client = iterator.next();
             if (client.getSocket().isClosed()) {
@@ -188,12 +191,7 @@ public abstract class BaseServer implements Server {
 
         @Override
         public void run() {
-            try {
-                // reason: ensure master propagation and client request is ordered
-                Thread.sleep(30L);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            Sleeper.sleep(30L);
             try (BufferedReader in = client.getReader()) {
 
                 String clientInput;
