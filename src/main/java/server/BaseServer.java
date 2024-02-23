@@ -73,7 +73,6 @@ public abstract class BaseServer implements Server {
                 replicasOffSetMap.remove(client);
             } else {
                 client.propagation(request);
-                client.getAck();
             }
         }
     }
