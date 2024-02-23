@@ -45,18 +45,4 @@ public class Psync implements Command {
         //     }
         // }
     }
-
-    @Override
-    public void clientAfterExecute(Server server, Client client, Request request) {
-        Command.super.masterAfterExecute(server, client, request);
-
-        try {
-            Thread.sleep(100L);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        client.getAck();
-        client.ping();
-        client.getAck();
-    }
 }
