@@ -53,6 +53,11 @@ public abstract class BaseServer implements Server {
     }
 
     @Override
+    public Collection<Client> getReplicas() {
+        return this.replicas;
+    }
+
+    @Override
     public void propagation(Request request) {
         Iterator<Client> iterator = this.replicas.iterator();
         while (iterator.hasNext()) {

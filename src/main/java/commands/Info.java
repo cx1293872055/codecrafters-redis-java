@@ -1,8 +1,10 @@
 package commands;
 
+import client.Client;
 import config.RedisConfig;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 /**
  * @author chenxin
@@ -10,7 +12,7 @@ import request.Request;
  */
 public class Info implements Command {
     @Override
-    public Reply execute(Request request) {
+    public Reply execute(Server server, Client client, Request request) {
         return Reply.length("role:" + getRole()
                                   + "\n" + "master_replid:" + RedisConfig.id
                                   + "\n" + "master_repl_offset:" + RedisConfig.offSet);

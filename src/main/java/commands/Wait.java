@@ -1,7 +1,9 @@
 package commands;
 
+import client.Client;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 /**
  * @author chenxin
@@ -9,14 +11,8 @@ import request.Request;
  */
 public class Wait implements Command{
     @Override
-    public Reply execute(Request request) {
-        String count = request.one().get();
-        if ("0".equals(count)) {
-            return Reply.num(0);
-        } else {
-            return Reply.num(7);
-
-        }
+    public Reply execute(Server server, Client client, Request request) {
+        return Reply.num(server.getReplicas().size());
     }
 
     @Override

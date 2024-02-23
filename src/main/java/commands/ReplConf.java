@@ -1,9 +1,11 @@
 package commands;
 
+import client.Client;
 import codec.Encoding;
 import config.RedisConfig;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 /**
  * @author chenxin
@@ -13,7 +15,7 @@ public class ReplConf implements Command {
 
 
     @Override
-    public Reply execute(Request request) {
+    public Reply execute(Server server, Client client, Request request) {
         if (listeningPort.equalsIgnoreCase(request.one().get())) {
             Psync.replicaPort = Integer.parseInt(request.two().get());
         } else if (getAck.equalsIgnoreCase(request.one().get())) {

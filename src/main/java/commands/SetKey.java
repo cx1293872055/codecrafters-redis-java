@@ -1,8 +1,10 @@
 package commands;
 
 import cache.RedisCache;
+import client.Client;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -19,7 +21,7 @@ public class SetKey implements Command {
             Executors.newSingleThreadExecutor();
 
     @Override
-    public Reply execute(Request request) {
+    public Reply execute(Server server, Client client, Request request) {
         String key = request.one().get();
         String value = request.two().get();
 

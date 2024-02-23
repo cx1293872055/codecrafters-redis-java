@@ -1,8 +1,10 @@
 package commands;
 
 import cache.RedisCache;
+import client.Client;
 import reply.Reply;
 import request.Request;
+import server.Server;
 
 import java.util.Objects;
 
@@ -15,7 +17,7 @@ import java.util.Objects;
  */
 public class Get implements Command{
     @Override
-    public Reply execute(Request request) {
+    public Reply execute(Server server, Client client, Request request) {
         String key = request.one().orElse(ERROR);
         String value = RedisCache.getCache().getOrDefault(key, null);
         return Objects.isNull(value) ? Reply.errorReply : Reply.length(value);

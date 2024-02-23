@@ -18,7 +18,7 @@ public class Psync implements Command {
     private static final String EMPTY_DB = "UkVESVMwMDEx+glyZWRpcy12ZXIFNy4yLjD6CnJlZGlzLWJpdHPAQPoFY3RpbWXCbQi8ZfoIdXNlZC1tZW3CsMQQAPoIYW9mLWJhc2XAAP/wbjv+wP9aog==";
 
     @Override
-    public Reply execute(Request request) {
+    public Reply execute(Server server, Client client, Request request) {
         return Reply.multiNoStarReply(Reply.status("FULLRESYNC " + RedisConfig.id + " " + RedisConfig.offSet),
                                       Reply.sink(Base64.getDecoder().decode(EMPTY_DB)));
     }
@@ -29,20 +29,7 @@ public class Psync implements Command {
     }
 
     @Override
-    public void clientPostExecute(Server server, Client client, Request request) {
-        server.setReplica(client);
-
-        // if (replicaPort != 0) {
-        //     Client replica = null;
-        //     try {
-        //         replica = new SlaveClient("localhost", replicaPort);
-        //     } catch (Exception exception) {
-        //         System.out.println("replica not available");
-        //     }
-        //
-        //     if (Objects.nonNull(replica)) {
-        //         server.setReplica(replica);
-        //     }
-        // }
+    public boolean setReplica() {
+        return true;
     }
 }

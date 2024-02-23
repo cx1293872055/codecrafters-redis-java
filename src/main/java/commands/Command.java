@@ -31,7 +31,7 @@ public interface Command {
 
     default void doMasterExecute(Server server, Client client, Request request) {
         masterPostExecute(server, client, request);
-        Reply reply = execute(request);
+        Reply reply = execute(server, client, request);
         if (this instanceof ReplConf) {
             client.sendRequest(reply);
         }
@@ -40,11 +40,11 @@ public interface Command {
 
     default void doClientExecute(Server server, Client client, Request request) {
         clientPostExecute(server, client, request);
-        client.sendRequest(execute(request));
+        client.sendRequest(execute(server, client, request));
         clientAfterExecute(server, client, request);
     }
 
-    default Reply execute(Request request) {
+    default Reply execute(Server server, Client client, Request request) {
         return null;
     }
 
