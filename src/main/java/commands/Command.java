@@ -30,8 +30,10 @@ public interface Command {
 
     default void doMasterExecute(Server server, Client client, Request request) {
         masterPostExecute(server, client, request);
-        execute(request);
-        // client.sendRequest(reply);
+        Reply reply = execute(request);
+        if (this instanceof ReplConf) {
+            client.sendRequest(reply);
+        }
         masterAfterExecute(server, client, request);
     }
 
