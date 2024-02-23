@@ -34,6 +34,7 @@ public class RedisConfig {
 
     public static void startAck() {
         startAck = true;
+        System.out.println("slave start ack ---------");
     }
 
     public static void increaseOffSet(Request request) {

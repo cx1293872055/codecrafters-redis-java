@@ -60,8 +60,4 @@ public class SetKey implements Command {
         return true;
     }
 
-    @Override
-    public boolean offSet() {
-        return true;
-    }
 }

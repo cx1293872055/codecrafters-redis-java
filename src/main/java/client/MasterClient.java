@@ -1,5 +1,7 @@
 package client;
 
+import config.RedisConfig;
+
 /**
  * @author chenxin
  * @since 2024/2/19 星期一 18:24
@@ -10,6 +12,7 @@ public class MasterClient extends BaseClient {
     public MasterClient(String host, int port) {
         super(host, port);
         System.out.println("Connected to master: " + this.getSocket().getRemoteSocketAddress());
+        RedisConfig.startAck();
     }
 
     @Override

@@ -64,7 +64,7 @@ public interface Command {
     }
 
     default boolean offSet() {
-        return false;
+        return true;
     }
 
     default String name() {
