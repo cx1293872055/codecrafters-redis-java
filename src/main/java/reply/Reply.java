@@ -24,12 +24,6 @@ public interface Reply {
 
     void write(OutputStream outputStream) throws IOException;
 
-    // static Reply orError(String context, Function<String, Reply> builder) {
-    //     if (Objects.isNull(context)) {
-    //         return errorReply;
-    //     }
-    //     return builder.apply(context);
-    // }
 
     static Reply raw(String context) {
         return new RawReply(context);
