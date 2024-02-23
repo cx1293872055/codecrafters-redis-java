@@ -19,6 +19,10 @@ public class Wait implements Command {
         String replicaReceiveCount = request.one().get();
         int replicaReceiveCountNum = Integer.parseInt(replicaReceiveCount);
 
+        if (replicaReceiveCountNum == 0) {
+            return Reply.num(0);
+        }
+
         String waitMills = request.two().get();
         int waitMillsInt = Integer.parseInt(waitMills);
 
