@@ -17,10 +17,10 @@ public class ReplConf implements Command {
         if ("listening-port".equalsIgnoreCase(request.one().get())) {
             Psync.replicaPort = Integer.parseInt(request.two().get());
         } else if ("getack".equalsIgnoreCase(request.one().get())) {
-            Reply reply = Reply.multiReply(Reply.length("REPLCONF"),
-                                           Reply.length("ACK"),
-                                           Reply.length(Encoding.numToBytes(RedisConfig.offSet)));
-            return reply;
+            RedisConfig.startAck();
+            return Reply.multiReply(Reply.length("REPLCONF"),
+                                    Reply.length("ACK"),
+                                    Reply.length(Encoding.numToBytes(RedisConfig.offSet)));
         }
 
         // ready
