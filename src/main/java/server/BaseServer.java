@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
  */
 public abstract class BaseServer implements Server {
     protected static final ExecutorService EXECUTOR_SERVICE =
-            Executors.newFixedThreadPool(5);
+            Executors.newFixedThreadPool(10);
     protected final Set<Client> replicas = new HashSet<>();
     protected int port;
 
