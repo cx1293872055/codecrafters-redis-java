@@ -42,7 +42,7 @@ public class Wait implements Command {
                 }
             }
         }
-        return Reply.num(0);
+        return Reply.num(server.getReplicas().size());
     }
 
     @Override
