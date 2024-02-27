@@ -3,7 +3,6 @@ package server;
 import cache.RedisCache;
 import client.Client;
 import client.SlaveClient;
-import commands.Command;
 import commands.CommandManager;
 import config.RedisConfig;
 import request.Request;
@@ -154,8 +153,8 @@ public abstract class BaseServer implements Server {
                         }
                         Request request = Request.commonRequest(raw.toString(), commandArray);
                         request.printRaw("receive master");
-                        Command command = CommandManager.ofInput(request.commandName());
-                        command.doMasterExecute(server, client, request);
+                        CommandManager.ofInput(request.commandName())
+                                      .doMasterExecute(server, client, request);
                     } else if (ch == '+') {
                         System.out.println(start);
                         start = new StringBuilder();
@@ -211,8 +210,8 @@ public abstract class BaseServer implements Server {
                         }
                         Request request = Request.commonRequest(sb.toString(), commands);
                         request.printRaw("receive client");
-                        Command command = CommandManager.ofInput(request.commandName());
-                        command.doClientExecute(server, client, request);
+                        CommandManager.ofInput(request.commandName())
+                                      .doClientExecute(server, client, request);
                     } else {
                         System.out.println("receive client reply --------");
                         System.out.println(clientInput);

@@ -18,7 +18,7 @@ public abstract class BaseClient implements Client {
     protected final Socket socket;
 
     protected final OutputStream out;
-    protected final PrintWriter writer;
+    protected final BufferedWriter writer;
     protected final InputStream in;
     protected final BufferedReader reader;
 
@@ -31,7 +31,7 @@ public abstract class BaseClient implements Client {
             this.socket = new Socket(InetAddress.getByName(host), port);
             socket.setReuseAddress(true);
             this.out = socket.getOutputStream();
-            this.writer = new PrintWriter(this.out, true);
+            this.writer = new BufferedWriter(new OutputStreamWriter(this.out));
             this.in = socket.getInputStream();
             this.reader = new BufferedReader(new InputStreamReader(this.in));
         } catch (IOException e) {
@@ -44,7 +44,7 @@ public abstract class BaseClient implements Client {
             this.socket = socket;
             socket.setReuseAddress(true);
             this.out = socket.getOutputStream();
-            this.writer = new PrintWriter(this.out, true);
+            this.writer = new BufferedWriter(new OutputStreamWriter(this.out));
             this.in = socket.getInputStream();
             this.reader = new BufferedReader(new InputStreamReader(this.in));
         } catch (IOException e) {
@@ -68,7 +68,7 @@ public abstract class BaseClient implements Client {
     }
 
     @Override
-    public PrintWriter getWriter() {
+    public BufferedWriter getWriter() {
         return this.writer;
     }
 

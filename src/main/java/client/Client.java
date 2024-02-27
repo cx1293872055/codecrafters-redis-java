@@ -54,7 +54,7 @@ public interface Client extends Closeable {
 
     OutputStream getOutputStream();
 
-    PrintWriter getWriter();
+    BufferedWriter getWriter();
 
     void sendRequest(Reply reply);
 
