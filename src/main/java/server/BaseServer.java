@@ -89,7 +89,7 @@ public abstract class BaseServer implements Server {
 
         // master: update corresponding replca offset
         Integer currentOffSet = replicasOffSetMap.get(client);
-        if (offSet >= currentOffSet) {
+        if (offSet > currentOffSet) {
             client.receivedPropagatedReply();
         }
         replicasOffSetMap.put(client, offSet);

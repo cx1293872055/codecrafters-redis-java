@@ -29,7 +29,7 @@ public class Wait implements Command {
         Set<Client> counted = new HashSet<>();
         long currentMills = System.currentTimeMillis();
         while (currentMills + waitMillsInt > System.currentTimeMillis()) {
-            Sleeper.sleep(50L);
+            Sleeper.sleep(100L);
             for (Client replica : server.getReplicas()) {
                 if (replica.isReceivedPropagatedReply()) {
                     counted.add(replica);
