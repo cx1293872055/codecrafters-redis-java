@@ -22,7 +22,7 @@ public abstract class BaseClient implements Client {
     protected final InputStream in;
     protected final BufferedReader reader;
 
-    protected boolean receivePropagationReply = false;
+    protected boolean receivePropagationReply = true;
 
     public BaseClient(String host, int port) {
         this.host = host;
