@@ -32,4 +32,10 @@ public class Psync implements Command {
     public boolean setReplica() {
         return true;
     }
+
+    @Override
+    public void clientAfterExecute(Server server, Client client, Request request) {
+        Command.super.clientAfterExecute(server, client, request);
+        client.receivedPropagatedReply();
+    }
 }
