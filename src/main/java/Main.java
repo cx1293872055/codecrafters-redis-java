@@ -5,5 +5,6 @@ public class Main {
         Server server = Server.loadRedis(args);
         server.initial();
         server.start();
+
     }
 }
