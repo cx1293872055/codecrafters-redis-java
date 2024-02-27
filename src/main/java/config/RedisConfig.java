@@ -27,6 +27,10 @@ public class RedisConfig {
         return config.getOrDefault(key, defaultValue);
     }
 
+    public static String getDbFileName() {
+        return RedisConfig.getConfig("dir", "") + "/" + RedisConfig.getConfig("dbfilename", "");
+    }
+
     public static void loadConfig(String[] args) {
         for (int i = 0; i < args.length; i++) {
             if ("--port".equalsIgnoreCase(args[i])
