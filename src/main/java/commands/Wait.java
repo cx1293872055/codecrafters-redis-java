@@ -29,6 +29,7 @@ public class Wait implements Command {
         Set<Client> counted = new HashSet<>();
         long currentMills = System.currentTimeMillis();
         while (currentMills + waitMillsInt > System.currentTimeMillis()) {
+            Sleeper.sleep(100L);
             for (Client replica : server.getReplicas()) {
                 if (replica.isReceivedPropagatedReply()) {
                     counted.add(replica);
@@ -49,7 +50,6 @@ public class Wait implements Command {
     @Override
     public void clientPostExecute(Server server, Client client, Request request) {
         Command.super.clientPostExecute(server, client, request);
-        Sleeper.sleep(50L);
 
         server.getReplicas().forEach(c ->{
             if (!c.isReceivedPropagatedReply()) {
