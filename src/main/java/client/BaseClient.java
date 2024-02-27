@@ -109,7 +109,9 @@ public abstract class BaseClient implements Client {
         receivePropagationReply = false;
 
         System.out.println(socket.getRemoteSocketAddress());
+
         request.printRaw("propagation");
+        getAck();
     }
 
     @Override

@@ -28,7 +28,7 @@ public class Wait implements Command {
 
         Collection<Client> replicas = server.getReplicas();
 
-        replicas.forEach(Client::getAck);
+        // replicas.forEach(Client::getAck);
 
         Set<Client> counted = new HashSet<>();
         long currentMills = System.currentTimeMillis();
