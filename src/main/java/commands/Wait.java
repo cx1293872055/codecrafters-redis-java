@@ -4,6 +4,7 @@ import client.Client;
 import reply.Reply;
 import request.Request;
 import server.Server;
+import utils.Sleeper;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class Wait implements Command {
         Set<Client> counted = new HashSet<>();
         long currentMills = System.currentTimeMillis();
         while (currentMills + waitMillsInt > System.currentTimeMillis()) {
+            Sleeper.sleep(50L);
             for (Client replica : server.getReplicas()) {
                 if (replica.isReceivedPropagatedReply()) {
                     counted.add(replica);
