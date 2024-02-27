@@ -5,7 +5,6 @@ import reply.Reply;
 import request.Request;
 import server.Server;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,14 +25,10 @@ public class Wait implements Command {
         String waitMills = request.two().get();
         int waitMillsInt = Integer.parseInt(waitMills);
 
-        Collection<Client> replicas = server.getReplicas();
-
-        // replicas.forEach(Client::getAck);
-
         Set<Client> counted = new HashSet<>();
         long currentMills = System.currentTimeMillis();
         while (currentMills + waitMillsInt > System.currentTimeMillis()) {
-            for (Client replica : replicas) {
+            for (Client replica : server.getReplicas()) {
                 if (replica.isReceivedPropagatedReply()) {
                     counted.add(replica);
                 }
@@ -48,5 +43,11 @@ public class Wait implements Command {
     @Override
     public String name() {
         return wait;
+    }
+
+    @Override
+    public void clientPostExecute(Server server, Client client, Request request) {
+        Command.super.clientPostExecute(server, client, request);
+        server.getReplicas().forEach(Client::getAck);
     }
 }

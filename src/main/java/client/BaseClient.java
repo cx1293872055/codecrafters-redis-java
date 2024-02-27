@@ -111,7 +111,7 @@ public abstract class BaseClient implements Client {
         System.out.println(socket.getRemoteSocketAddress());
 
         request.printRaw("propagation");
-        getAck();
+        // getAck();
     }
 
     @Override
