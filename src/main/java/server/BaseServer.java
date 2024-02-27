@@ -69,7 +69,7 @@ public abstract class BaseServer implements Server {
     @Override
     public void propagation(Request request) {
         Iterator<Client> iterator = this.replicas.iterator();
-        // Sleeper.sleep(30L);
+        Sleeper.sleep(30L);
 
         while (iterator.hasNext()) {
             Client client = iterator.next();
