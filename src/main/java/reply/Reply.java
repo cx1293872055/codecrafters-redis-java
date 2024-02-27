@@ -66,7 +66,7 @@ public interface Reply {
         return new BulkNoEndReply(bytes);
     }
 
-    static Reply num(int num) {
+    static Reply num(long num) {
         return new NumberReply(Encoding.numToBytes(num));
     }
 }

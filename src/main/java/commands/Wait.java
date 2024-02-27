@@ -6,9 +6,6 @@ import request.Request;
 import server.Server;
 import utils.Sleeper;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * @author chenxin
  * @since 2024/2/23 星期五 13:46
@@ -20,26 +17,24 @@ public class Wait implements Command {
         int replicaReceiveCountNum = Integer.parseInt(replicaReceiveCount);
 
         if (replicaReceiveCountNum == 0) {
-            return Reply.num(0);
+            return Reply.num(0L);
         }
 
         String waitMills = request.two().get();
         int waitMillsInt = Integer.parseInt(waitMills);
 
-        Set<Client> counted = new HashSet<>();
         long currentMills = System.currentTimeMillis();
+        long count= 0;
         while (currentMills + waitMillsInt > System.currentTimeMillis()) {
             Sleeper.sleep(100L);
-            for (Client replica : server.getReplicas()) {
-                if (replica.isReceivedPropagatedReply()) {
-                    counted.add(replica);
-                }
-            }
-            if (counted.size() >= replicaReceiveCountNum) {
-                return Reply.num(counted.size());
+            count = server.getReplicas().stream()
+                               .filter(Client::isReceivedPropagatedReply)
+                               .count();
+            if (count >= replicaReceiveCountNum) {
+                return Reply.num(count);
             }
         }
-        return Reply.num(counted.size());
+        return Reply.num(count);
     }
 
     @Override
