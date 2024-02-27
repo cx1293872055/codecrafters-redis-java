@@ -5,6 +5,7 @@ import config.RedisConfig;
 import reply.Reply;
 import request.Request;
 import server.Server;
+import utils.Sleeper;
 
 /**
  * @author chenxin
@@ -41,7 +42,11 @@ public interface Command {
 
     default void doClientExecute(Server server, Client client, Request request) {
         clientPostExecute(server, client, request);
-        client.sendRequest(execute(server, client, request));
+        Reply reply = execute(server, client, request);
+        if (this instanceof Wait) {
+            Sleeper.sleep(100L);
+        }
+        client.sendRequest(reply);
         clientAfterExecute(server, client, request);
     }
 

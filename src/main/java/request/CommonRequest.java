@@ -18,7 +18,7 @@ public class CommonRequest implements Request {
 
     @Override
     public void printRaw(String title) {
-        System.out.println(title + " command ----------");
+        System.out.println(title + " command ----------" + Thread.currentThread().getName());
         System.out.println(this.rawCommand.replaceAll("\r\n", ".."));
         System.out.println();
     }
