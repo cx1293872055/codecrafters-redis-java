@@ -2,6 +2,9 @@ package config;
 
 import request.Request;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author chenxin
  * @since 2024/2/19 星期一 17:27
@@ -18,6 +21,12 @@ public class RedisConfig {
     public static String masterHost = null;
     public static int masterPort = 6379;
 
+    private static Map<String, String> config = new HashMap<>();
+
+    public static String getConfig(String key, String defaultValue) {
+        return config.getOrDefault(key, defaultValue);
+    }
+
     public static void loadConfig(String[] args) {
         for (int i = 0; i < args.length; i++) {
             if ("--port".equalsIgnoreCase(args[i])
@@ -28,6 +37,12 @@ public class RedisConfig {
                 masterHost = args[++i];
                 masterPort = Integer.parseInt(args[++i]);
                 isMaster = false;
+            }
+            if ("--dir".equalsIgnoreCase(args[i])) {
+                config.put("dir", args[++i]);
+            }
+            if ("--dbfilename".equalsIgnoreCase(args[i])) {
+                config.put("dbfilename", args[++i]);
             }
         }
     }

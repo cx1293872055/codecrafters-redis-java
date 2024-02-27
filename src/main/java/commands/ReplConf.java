@@ -20,14 +20,14 @@ public class ReplConf implements Command {
         String subCommand = request.one().get();
         String subArg = request.two().get();
 
-        if (listeningPort.equalsIgnoreCase(subCommand)) {
+        if (LISTENING_PORT.equalsIgnoreCase(subCommand)) {
             Psync.replicaPort = Integer.parseInt(subArg);
-        } else if (ack.equalsIgnoreCase(subCommand)) {
+        } else if (ACK.equalsIgnoreCase(subCommand)) {
             int offSet = Integer.parseInt(subArg);
             server.setReplicaOffSet(client, offSet);
             // propagation = true;
             return null;
-        } else if (getAck.equalsIgnoreCase(subCommand)) {
+        } else if (GETACK.equalsIgnoreCase(subCommand)) {
             RedisConfig.startAck();
             return Reply.multiReply(Reply.length("REPLCONF"),
                                     Reply.length("ACK"),

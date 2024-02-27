@@ -23,12 +23,15 @@ public interface Command {
     String ERROR = "ERROR";
 
     String REPLCONF = "replconf";
-    String listeningPort = "listening-port";
-    String ack = "ack";
-    String getAck = "getack";
+    String LISTENING_PORT = "listening-port";
+    String ACK = "ack";
+    String GETACK = "getack";
 
     String PSYNC = "psync";
-    String wait = "wait";
+    String WAIT = "wait";
+
+    String CONFIG = "config";
+
 
     default void doMasterExecute(Server server, Client client, Request request) {
         masterPostExecute(server, client, request);

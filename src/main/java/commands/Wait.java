@@ -39,7 +39,7 @@ public class Wait implements Command {
 
     @Override
     public String name() {
-        return wait;
+        return WAIT;
     }
 
     @Override
