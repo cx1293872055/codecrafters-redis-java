@@ -35,5 +35,4 @@ public interface Server {
 
     int getReplicaOffSet(Client client);
 
-    int propagatedCount();
 }

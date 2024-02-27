@@ -26,10 +26,6 @@ public abstract class BaseServer implements Server {
             Executors.newFixedThreadPool(10);
     protected final Set<Client> replicas = new HashSet<>();
     protected final Map<Client, Integer> replicasOffSetMap = new HashMap<>();
-
-    protected int replicasPropagatedCount = 0;
-    protected long lastPropagatedTime = 0;
-
     protected int port;
 
     @Override
@@ -80,11 +76,6 @@ public abstract class BaseServer implements Server {
                 // CompletableFuture.runAsync(() -> client.propagation(request));
             }
         }
-    }
-
-    @Override
-    public int propagatedCount() {
-        return this.replicasPropagatedCount;
     }
 
     @Override
