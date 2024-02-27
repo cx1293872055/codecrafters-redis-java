@@ -4,6 +4,7 @@ import client.Client;
 import reply.Reply;
 import request.Request;
 import server.Server;
+import utils.Sleeper;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,6 +49,12 @@ public class Wait implements Command {
     @Override
     public void clientPostExecute(Server server, Client client, Request request) {
         Command.super.clientPostExecute(server, client, request);
-        server.getReplicas().forEach(Client::getAck);
+        Sleeper.sleep(50L);
+
+        server.getReplicas().forEach(c ->{
+            if (!c.isReceivedPropagatedReply()) {
+                c.getAck();
+            }
+        });
     }
 }
