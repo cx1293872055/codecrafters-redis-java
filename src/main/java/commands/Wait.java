@@ -34,13 +34,12 @@ public class Wait implements Command {
         long currentMills = System.currentTimeMillis();
         while (currentMills + waitMillsInt > System.currentTimeMillis()) {
             for (Client replica : replicas) {
-                // replica.getAck();
                 if (replica.isReceivedPropagatedReply()) {
                     counted.add(replica);
                 }
-                if (counted.size() == replicaReceiveCountNum) {
-                    return Reply.num(counted.size());
-                }
+            }
+            if (counted.size() >= replicaReceiveCountNum) {
+                return Reply.num(counted.size());
             }
         }
         return Reply.num(counted.size());
