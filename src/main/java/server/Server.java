@@ -33,6 +33,4 @@ public interface Server {
 
     void setReplicaOffSet(Client client, int offSet);
 
-    int getReplicaOffSet(Client client);
-
 }

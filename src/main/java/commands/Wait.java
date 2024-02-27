@@ -24,12 +24,12 @@ public class Wait implements Command {
         int waitMillsInt = Integer.parseInt(waitMills);
 
         long currentMills = System.currentTimeMillis();
-        long count= 0;
+        long count = 0;
         while (currentMills + waitMillsInt > System.currentTimeMillis()) {
             Sleeper.sleep(100L);
             count = server.getReplicas().stream()
-                               .filter(Client::isReceivedPropagatedReply)
-                               .count();
+                          .filter(Client::isReceivedPropagatedReply)
+                          .count();
             if (count >= replicaReceiveCountNum) {
                 return Reply.num(count);
             }
@@ -46,7 +46,7 @@ public class Wait implements Command {
     public void clientPostExecute(Server server, Client client, Request request) {
         Command.super.clientPostExecute(server, client, request);
 
-        server.getReplicas().forEach(c ->{
+        server.getReplicas().forEach(c -> {
             if (!c.isReceivedPropagatedReply()) {
                 c.getAck();
             }

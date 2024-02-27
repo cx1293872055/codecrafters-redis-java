@@ -6,6 +6,7 @@ import request.Request;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Objects;
 
 /**
  * @author chenxin
@@ -79,6 +80,10 @@ public abstract class BaseClient implements Client {
 
     @Override
     public void sendRequest(Reply reply) {
+        if (Objects.isNull(reply)) {
+            return;
+        }
+
         try {
             reply.write(out);
             out.flush();

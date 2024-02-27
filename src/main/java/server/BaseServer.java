@@ -88,15 +88,10 @@ public abstract class BaseServer implements Server {
 
         // master: update corresponding replca offset
         Integer currentOffSet = replicasOffSetMap.get(client);
-        if (offSet > currentOffSet) {
+        if (offSet >= currentOffSet) {
             client.receivedPropagatedReply();
         }
         replicasOffSetMap.put(client, offSet);
-    }
-
-    @Override
-    public int getReplicaOffSet(Client client) {
-        return replicasOffSetMap.get(client);
     }
 
     static abstract class BaseHandler implements Runnable {

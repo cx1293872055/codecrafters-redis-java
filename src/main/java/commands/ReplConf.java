@@ -26,6 +26,7 @@ public class ReplConf implements Command {
             int offSet = Integer.parseInt(subArg);
             server.setReplicaOffSet(client, offSet);
             // propagation = true;
+            return null;
         } else if (getAck.equalsIgnoreCase(subCommand)) {
             RedisConfig.startAck();
             return Reply.multiReply(Reply.length("REPLCONF"),
