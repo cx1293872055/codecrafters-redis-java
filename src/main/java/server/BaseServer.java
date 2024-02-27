@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -76,7 +77,7 @@ public abstract class BaseServer implements Server {
                 iterator.remove();
                 replicasOffSetMap.remove(client);
             } else {
-                client.propagation(request);
+                CompletableFuture.runAsync(() -> client.propagation(request));
             }
         }
     }
