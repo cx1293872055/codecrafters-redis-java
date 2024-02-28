@@ -42,6 +42,11 @@ public class RDBReader {
         this.path = Path.of(RedisConfig.getDbFileName());
         try {
             this.rdbDatas = Files.readAllBytes(this.path);
+            for (byte b : this.rdbDatas) {
+                // 将每个字节转为十六进制字符串
+                String hexString = String.format("%02X", b & 0xFF);
+                System.out.print("0x" + hexString + ",");
+            }
             readFileSuccess = true;
         } catch (IOException e) {
             System.out.println("open file error");
