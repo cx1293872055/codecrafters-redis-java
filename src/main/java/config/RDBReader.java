@@ -109,6 +109,7 @@ public class RDBReader {
     private void readTable(InputStream in) throws IOException {
         int current;
 
+        // ready
         while ((current = in.read()) != RDB_END) {
             rdbKvs.add(getKV(current, in));
         }
