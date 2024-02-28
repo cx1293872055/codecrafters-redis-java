@@ -126,7 +126,6 @@ public class RDBReader {
             }
             cache.put(rdbKv.key, rdbKv.value);
         }
-        System.out.println(cache);
     }
 
 
