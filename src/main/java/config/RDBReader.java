@@ -35,6 +35,7 @@ public class RDBReader {
     private static final int KV_SEC_START = 0xFD;
     // 11111100
     private static final int KV_MILL_START = 0xFC;
+    private static final int RDB_END = 0xFF;
 
     private final List<KV> rdbKvs = new ArrayList<>();
 
@@ -59,8 +60,15 @@ public class RDBReader {
             System.out.println("open file failure");
             return this;
         }
-        try (InputStream in = Files.newInputStream(path)) {
+        try {
+            return getRdbReader(Files.newInputStream(this.path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public RDBReader getRdbReader(InputStream in) {
+        try {
             // Magic String and Version
             readRedisInfo(in);
 
@@ -106,21 +114,23 @@ public class RDBReader {
     private void readTable(InputStream in) throws IOException {
         int current;
 
-        while ((current = in.read()) != SELECTOR_START) {
+        while ((current = in.read()) != RDB_END) {
             rdbKvs.add(getKV(current, in));
         }
     }
 
     public void exchangeToLocalCache() {
+        RedisCache.initCache();
         Map<String, String> cache = RedisCache.getCache();
 
         for (KV rdbKv : this.rdbKvs) {
-            if (rdbKv.timeStamp == -1 || rdbKv.timeStamp < System.currentTimeMillis()) {
+            if (rdbKv.timeStamp != -1 && rdbKv.timeStamp < System.currentTimeMillis()) {
                 continue;
             }
             cache.put(rdbKv.key, rdbKv.value);
         }
     }
+
 
     private static KV getKV(int current, InputStream in) throws IOException {
         if (current == KV_SEC_START || current == KV_MILL_START) {
