@@ -44,7 +44,7 @@ public class RDBReader {
             this.rdbDatas = Files.readAllBytes(this.path);
             readFileSuccess = true;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("open file error");
         }
     }
 
@@ -72,7 +72,7 @@ public class RDBReader {
             readTable(in);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("open file error");
         }
         return this;
     }
