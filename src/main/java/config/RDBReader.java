@@ -43,11 +43,6 @@ public class RDBReader {
         this.path = Path.of(RedisConfig.getDbFileName());
         try {
             this.rdbDatas = Files.readAllBytes(this.path);
-            for (byte b : this.rdbDatas) {
-                // 将每个字节转为十六进制字符串
-                String hexString = String.format("%02X", b & 0xFF);
-                System.out.print(hexString + " ");
-            }
             readFileSuccess = true;
         } catch (IOException e) {
             System.out.println("open file error");
@@ -123,12 +118,15 @@ public class RDBReader {
         RedisCache.initCache();
         Map<String, String> cache = RedisCache.getCache();
 
+        System.out.println(this.rdbKvs);
+
         for (KV rdbKv : this.rdbKvs) {
             if (rdbKv.timeStamp != -1 && rdbKv.timeStamp < System.currentTimeMillis()) {
                 continue;
             }
             cache.put(rdbKv.key, rdbKv.value);
         }
+        System.out.println(cache);
     }
 
 

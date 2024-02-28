@@ -1,6 +1,7 @@
 package cache;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -12,7 +13,9 @@ public class RedisCache {
     private static Map<String, String> cache;
 
     public static void initCache() {
-        cache = new ConcurrentHashMap<>();
+        if (Objects.isNull(cache)) {
+            cache = new ConcurrentHashMap<>();
+        }
     }
 
     public static Map<String, String> getCache() {
