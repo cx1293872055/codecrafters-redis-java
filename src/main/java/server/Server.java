@@ -1,6 +1,7 @@
 package server;
 
 import client.Client;
+import config.RDBReader;
 import config.RedisConfig;
 import request.Request;
 
@@ -14,6 +15,8 @@ public interface Server {
 
     static Server loadRedis(String[] args) {
         RedisConfig.loadConfig(args);
+        new RDBReader().loadData()
+                       .exchangeToLocalCache();
         return RedisConfig.isMaster ? new Master() : new Slave();
     }
 

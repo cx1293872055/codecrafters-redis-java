@@ -32,6 +32,8 @@ public interface Command {
 
     String CONFIG = "config";
 
+    String KEYS = "keys";
+
 
     default void doMasterExecute(Server server, Client client, Request request) {
         masterPostExecute(server, client, request);

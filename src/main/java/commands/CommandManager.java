@@ -22,7 +22,8 @@ public class CommandManager {
                                     new ReplConf(),
                                     new Psync(),
                                     new Wait(),
-                                    new Config()
+                                    new Config(),
+                                    new Keys()
                                 )
                                 .collect(Collectors.toMap(Command::name, Function.identity())));
     }
