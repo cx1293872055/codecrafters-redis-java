@@ -19,7 +19,7 @@ public class Get implements Command{
     @Override
     public Reply execute(Server server, Client client, Request request) {
         String key = request.one().orElse(ERROR);
-        String value = RedisCache.getCache().getOrDefault(key, null);
+        String value = RedisCache.getValue(key);
         return Objects.isNull(value) ? Reply.errorReply : Reply.length(value);
     }
 

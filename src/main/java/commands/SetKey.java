@@ -8,8 +8,6 @@ import server.Server;
 
 import java.time.Duration;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author chenxin
@@ -17,25 +15,23 @@ import java.util.concurrent.Executors;
  */
 public class SetKey implements Command {
 
-    private static final ExecutorService EXECUTOR_SERVICE =
-            Executors.newSingleThreadExecutor();
-
     @Override
     public Reply execute(Server server, Client client, Request request) {
         String key = request.one().get();
         String value = request.two().get();
 
+        long expireMills = -1;
+
         Optional<String> three = request.three();
         if (three.isPresent()) {
             String option = three.get();
             switch (option.toLowerCase()) {
-                case PX -> {
-                    Duration duration = Duration.ofMillis(Long.parseLong(request.four().get()));
-                    EXECUTOR_SERVICE.execute(() -> removeKey(key, duration));
+                case PX -> expireMills = Long.parseLong(request.four().get());
+                default -> {
                 }
             }
         }
-        RedisCache.getCache().put(key, value);
+        RedisCache.setExpireKV(key, value, expireMills);
 
         return Reply.status(OK);
     }

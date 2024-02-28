@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -116,8 +115,6 @@ public class RDBReader {
     }
 
     public void exchangeToLocalCache() {
-        RedisCache.initCache();
-        Map<String, String> cache = RedisCache.getCache();
 
         System.out.println(this.rdbKvs);
 
@@ -125,7 +122,7 @@ public class RDBReader {
             if (rdbKv.timeStamp != -1 && rdbKv.timeStamp < System.currentTimeMillis()) {
                 continue;
             }
-            cache.put(rdbKv.key, rdbKv.value);
+            RedisCache.setExpireKV(rdbKv.key, rdbKv.value, rdbKv.timeStamp);
         }
     }
 
