@@ -34,6 +34,7 @@ public class RDBReader {
     private static final int KV_SEC_START = 0xFD;
     // 11111100
     private static final int KV_MILL_START = 0xFC;
+    // 11111111
     private static final int RDB_END = 0xFF;
 
     private final List<KV> rdbKvs = new ArrayList<>();
