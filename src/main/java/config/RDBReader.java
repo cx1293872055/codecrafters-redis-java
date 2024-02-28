@@ -168,7 +168,7 @@ public class RDBReader {
                                      ((sixBit) << 8) | in.read());
 
                 case 0B10 -> Pair.of(length -> readLengthToString(in, length),
-                                     in.read() << 24 & in.read() << 16 & in.read() << 8 & in.read());
+                                     in.read() << 24 | in.read() << 16 | in.read() << 8 | in.read());
 
                 case 0B11 -> switch (sixBit) {
                     case 0, 1, 2 -> Pair.of(length -> readLengthToIntString(in, length / 8),
@@ -225,7 +225,7 @@ public class RDBReader {
     private static int readLengthToInt(InputStream in, int byteSize) {
         try {
             int result = 0;
-            for (int i = byteSize - 1; i >= 0; i--) {
+            for (int i = 0; i < byteSize; i++) {
                 result |= in.read() << (8 * i);
             }
             return result;
@@ -237,7 +237,7 @@ public class RDBReader {
     private static long readLengthToLong(InputStream in, int byteSize) {
         try {
             long result = 0;
-            for (int i = byteSize - 1; i >= 0; i--) {
+            for (int i = 0; i < byteSize; i++) {
                 result |= (long) in.read() << (8 * i);
             }
             return result;
