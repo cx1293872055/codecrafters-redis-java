@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -42,6 +43,8 @@ public class RDBReader {
         this.path = Path.of(RedisConfig.getDbFileName());
         try {
             this.rdbDatas = Files.readAllBytes(this.path);
+            System.out.println(Arrays.toString(rdbDatas));
+
             readFileSuccess = true;
         } catch (IOException e) {
             System.out.println("open file error");
